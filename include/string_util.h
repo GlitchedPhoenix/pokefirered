@@ -30,6 +30,7 @@ u8 *GetExpandedPlaceholder(u32 id);
 u8 *StringFill(u8 *dest, u8 c, u16 n);
 u8 *StringCopyPadded(u8 *dest, const u8 *src, u8 c, u16 n);
 u8 *StringFillWithTerminator(u8 *dest, u16 n);
+u8 *ConvertUIntToHexStringN(u8 *dest, u32 value, enum StringConvertMode mode, u8 n);
 u8 *StringCopyN_Multibyte(u8 *dest, const u8 *src, u32 n);
 u32 StringLength_Multibyte(const u8 *str);
 u8 *WriteColorChangeControlCode(u8 *dest, u32 colorType, u8 color);

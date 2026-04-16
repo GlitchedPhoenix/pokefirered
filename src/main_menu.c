@@ -4,6 +4,7 @@
 #include "task.h"
 #include "save.h"
 #include "event_data.h"
+#include "main_menu.h"
 #include "menu.h"
 #include "link.h"
 #include "oak_speech.h"

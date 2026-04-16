@@ -1370,6 +1370,7 @@ Text_TestMsg::
 	.include "data/text/new_game_intro.inc"
 	.include "data/text/pokedude.inc"
 	.include "data/scripts/fortune_teller.inc"
+	.include "data/scripts/debug.inc"
 
 	.include "data/maps/FourIsland_IcefallCave_Secret/scripts.inc"
 	.include "data/maps/FourIsland_IcefallCave_Secret/text.inc"

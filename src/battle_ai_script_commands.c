@@ -358,6 +358,11 @@ void BattleAI_SetupAIData(void)
         return;
     }
     AI_THINKING_STRUCT->aiFlags = gTrainers[gTrainerBattleOpponent_A].aiFlags;
+	
+#if TX_DEBUG_SYSTEM_ENABLE == TRUE
+    if (gIsDebugBattle)
+        AI_THINKING_STRUCT->aiFlags = gDebugAIFlags;
+#endif
 }
 
 u8 BattleAI_ChooseMoveOrAction(void)

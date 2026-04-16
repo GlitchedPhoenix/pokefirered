@@ -11,7 +11,7 @@
 // #define NDEBUG
 
 // Fire Red likely forgot to define NDEBUG/NOAGBPRN before release, leading
-// to the inclusion of asserts in the retail ROM.
+// to the inclusion of asserts in the retail ROM
 
 #ifndef NDEBUG
 #define PRETTY_PRINT_OFF (0)

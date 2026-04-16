@@ -3,6 +3,7 @@
 #include "bike.h"
 #include "coord_event_weather.h"
 #include "daycare.h"
+#include "debug.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
@@ -153,6 +154,13 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
             input->dpadDirection = DIR_WEST;
         else if (heldKeys & DPAD_RIGHT)
             input->dpadDirection = DIR_EAST;
+#if TX_DEBUG_SYSTEM_ENABLE == TRUE && TX_DEBUG_SYSTEM_IN_MENU == FALSE
+		if ((heldKeys & TX_DEBUG_SYSTEM_HELD_KEYS) && input->TX_DEBUG_SYSTEM_TRIGGER_EVENT)
+		{
+			input->input_field_1_2 = TRUE;
+			input->TX_DEBUG_SYSTEM_TRIGGER_EVENT = FALSE;
+		}
+#endif
     }
 }
 
@@ -295,6 +303,16 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         gFieldInputRecord.pressedSelectButton = TRUE;
         return TRUE;
     }
+	
+	#if TX_DEBUG_SYSTEM_ENABLE == TRUE && TX_DEBUG_SYSTEM_IN_MENU == FALSE
+    if (input->input_field_1_2)
+    {
+        PlaySE(SE_WIN_OPEN);
+        FreezeObjectEvents();
+        Debug_ShowMainMenu();
+        return TRUE;
+    }
+#endif
 
     return FALSE;
 }
@@ -741,6 +759,11 @@ void RestartWildEncounterImmunitySteps(void)
 
 static bool8 CheckStandardWildEncounter(u32 metatileAttributes)
 {
+	#if TX_DEBUG_SYSTEM_ENABLE == TRUE
+    if (FlagGet(FLAG_SYS_NO_ENCOUNTER))
+        return FALSE;
+    #endif
+	
     return TryStandardWildEncounter(metatileAttributes);
 }
 

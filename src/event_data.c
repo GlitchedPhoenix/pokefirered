@@ -240,6 +240,14 @@ u16 VarGet(u16 idx)
     return *ptr;
 }
 
+u16 VarGetIfExists(u16 id)
+{
+    u16 *ptr = GetVarPointer(id);
+    if (!ptr)
+        return 65535;
+    return *ptr;
+}
+
 bool8 VarSet(u16 idx, u16 val)
 {
     u16 *ptr = GetVarPointer(idx);
@@ -282,6 +290,14 @@ u8 *GetFlagAddr(u16 idx)
         return &gSaveBlock1Ptr->flags[idx / 8];
     }
     return &sSpecialFlags[(idx - SPECIAL_FLAGS_START) / 8];
+}
+
+u8 FlagToggle(u16 id)
+{
+    u8 *ptr = GetFlagAddr(id);
+    if (ptr)
+        *ptr ^= 1 << (id & 7);
+    return 0;
 }
 
 bool8 FlagSet(u16 idx)

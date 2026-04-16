@@ -47,6 +47,10 @@
 #define UNION_ROOM_KB_ROW_COUNT 10
 #define GIFT_RIBBONS_COUNT 11
 
+#define MAX_BAG_ITEM_CAPACITY  99
+#define MAX_PC_ITEM_CAPACITY   999
+#define MAX_BERRY_CAPACITY     999
+
 #define POCKET_ITEMS             1
 #define POCKET_KEY_ITEMS         2
 #define POCKET_POKE_BALLS        3

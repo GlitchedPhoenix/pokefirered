@@ -1,6 +1,7 @@
 #include "global.h"
 #include "gflib.h"
 #include "scanline_effect.h"
+#include "debug.h"
 #include "overworld.h"
 #include "link.h"
 #include "pokedex.h"
@@ -48,6 +49,7 @@ enum StartMenuOption
     STARTMENU_EXIT,
     STARTMENU_RETIRE,
     STARTMENU_PLAYER2,
+	MENU_ACTION_DEBUG,
     MAX_STARTMENU_ITEMS
 };
 
@@ -111,6 +113,10 @@ static void task50_after_link_battle_save(u8 taskId);
 static void PrintSaveStats(void);
 static void CloseSaveStatsWindow(void);
 static void CloseStartMenu(void);
+static bool8 StartMenuDebugCallback(void);
+static void HideStartMenuDebug(void);
+
+static const u8 gText_MenuDebug[] = _("DEBUG");
 
 static const struct MenuAction sStartMenuActionTable[] = {
     [STARTMENU_POKEDEX] = { gText_MenuPokedex, {.u8_void = StartMenuPokedexCallback} },
@@ -121,7 +127,7 @@ static const struct MenuAction sStartMenuActionTable[] = {
     [STARTMENU_OPTION]  = { gText_MenuOption,  {.u8_void = StartMenuOptionCallback} },
     [STARTMENU_EXIT]    = { gText_MenuExit,    {.u8_void = StartMenuExitCallback} },
     [STARTMENU_RETIRE]  = { gText_MenuRetire,  {.u8_void = StartMenuSafariZoneRetireCallback} },
-    [STARTMENU_PLAYER2] = { gText_MenuPlayer,  {.u8_void = StartMenuLinkPlayerCallback} }
+    [STARTMENU_PLAYER2] = { gText_MenuPlayer,  {.u8_void = StartMenuLinkPlayerCallback} },
 };
 
 static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
@@ -499,6 +505,13 @@ static bool8 StartMenuBagCallback(void)
         return TRUE;
     }
     return FALSE;
+}
+
+static void HideStartMenuDebug(void)
+{
+    PlaySE(SE_SELECT);
+    ClearStdWindowAndFrame(GetStartMenuWindowId(), TRUE);
+    RemoveStartMenuWindow();
 }
 
 static bool8 StartMenuPlayerCallback(void)

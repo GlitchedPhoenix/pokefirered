@@ -5,6 +5,7 @@
 #include "berry_powder.h"
 #include "bike.h"
 #include "coins.h"
+#include "debug.h"
 #include "event_data.h"
 #include "field_effect.h"
 #include "field_fadetransition.h"

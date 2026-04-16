@@ -136,3 +136,5 @@
 	.include "src/trainer_tower.o"
 	.include "src/berry_powder.o"
 	.include "src/faraway_island.o"
+	.include "src/debug.o"
+	.include "src/debug_pokemon_creator.o"
