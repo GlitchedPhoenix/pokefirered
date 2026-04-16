@@ -15,12 +15,18 @@ PowerPlant_EventScript_TryRemoveStaticMon::
 
 PowerPlant_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_POWER_PLANT
+	call_if_set FLAG_FOUGHT_ZAPDOS, PowerPlant_EventScript_HideZapdos
 	call_if_unset FLAG_FOUGHT_ZAPDOS, PowerPlant_EventScript_ShowZapdos
 	call_if_unset FLAG_FOUGHT_POWER_PLANT_ELECTRODE_1, PowerPlant_EventScript_ShowElectrode1
 	call_if_unset FLAG_FOUGHT_POWER_PLANT_ELECTRODE_2, PowerPlant_EventScript_ShowElectrode2
 	end
 
+PowerPlant_EventScript_HideZapdos::
+	setflag FLAG_HIDE_ZAPDOS
+	return
+
 PowerPlant_EventScript_ShowZapdos::
+	goto_if_set FLAG_ZAPDOS_RAN, EventScript_Return
 	clearflag FLAG_HIDE_ZAPDOS
 	return
 
@@ -59,7 +65,7 @@ PowerPlant_EventScript_Zapdos::
 	end
 
 PowerPlant_EventScript_DefeatedZapdos::
-	setflag FLAG_FOUGHT_ZAPDOS
+	setflag FLAG_ZAPDOS_RAN
 	goto EventScript_RemoveStaticMon
 	end
 

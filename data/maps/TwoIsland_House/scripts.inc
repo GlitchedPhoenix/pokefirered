@@ -11,13 +11,8 @@ TwoIsland_House_EventScript_MoveManiac::
 	special QuestLog_CutRecording
 	lock
 	faceplayer
-	clearflag HAS_BIG_MUSHROOM
-	clearflag HAS_TINY_MUSHROOMS
-	clearflag HAS_BOTH_MUSHROOMS
-	goto_if_set CHECKED_MUSHROOMS, TwoIsland_House_EventScript_CheckPlayerHasMushrooms
 	msgbox TwoIsland_House_Text_TeachMonMoveForMushroom
-	setflag CHECKED_MUSHROOMS
-	goto TwoIsland_House_EventScript_CheckPlayerHasMushrooms
+	goto TwoIsland_House_EventScript_AskTutorMon
 	end
 
 TwoIsland_House_EventScript_CheckPlayerHasMushrooms::
@@ -62,24 +57,14 @@ TwoIsland_House_EventScript_ChooseMoveToTeach::
 	special TeachMoveRelearnerMove
 	waitstate
 	goto_if_eq VAR_0x8004, 0, TwoIsland_House_EventScript_ChooseMonToTutor
-	goto_if_set HAS_BOTH_MUSHROOMS, TwoIsland_House_EventScript_ChooseMushroom
-	goto_if_set HAS_BIG_MUSHROOM, TwoIsland_House_EventScript_GiveBigMushroom
-	goto_if_set HAS_TINY_MUSHROOMS, TwoIsland_House_EventScript_GiveTinyMushrooms
+	goto TwoIsland_House_EventScript_EndTutorMove
 	end
 
 TwoIsland_House_EventScript_GiveBigMushroom::
-	removeitem ITEM_BIG_MUSHROOM
-	textcolor NPC_TEXT_COLOR_NEUTRAL
-	msgbox TwoIsland_House_Text_HandedOverOneBigMushroom
-	call EventScript_RestorePrevTextColor
 	goto TwoIsland_House_EventScript_EndTutorMove
 	end
 
 TwoIsland_House_EventScript_GiveTinyMushrooms::
-	removeitem ITEM_TINY_MUSHROOM, 2
-	textcolor NPC_TEXT_COLOR_NEUTRAL
-	msgbox TwoIsland_House_Text_HandedOverTwoTinyMushrooms
-	call EventScript_RestorePrevTextColor
 	goto TwoIsland_House_EventScript_EndTutorMove
 	end
 

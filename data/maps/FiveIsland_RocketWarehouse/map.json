@@ -196,6 +196,33 @@
       "var": "VAR_MAP_SCENE_ROCKET_WAREHOUSE",
       "var_value": "0",
       "script": "FiveIsland_RocketWarehouse_EventScript_Admin2Trigger"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 5,
+      "elevation": 0,
+      "var": "VAR_EMAIL_HINT",
+      "var_value": "1",
+      "script": "FiveIsland_RocketWarehouse_EventScript_ComputerBeep"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 6,
+      "elevation": 0,
+      "var": "VAR_EMAIL_HINT",
+      "var_value": "1",
+      "script": "FiveIsland_RocketWarehouse_EventScript_ComputerBeep"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 2,
+      "elevation": 0,
+      "var": "VAR_EMAIL_HINT",
+      "var_value": "1",
+      "script": "FiveIsland_RocketWarehouse_EventScript_ComputerBeep2"
     }
   ],
   "bg_events": [
@@ -402,6 +429,22 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "FiveIsland_RocketWarehouse_EventScript_Cage"
+    },
+    {
+      "type": "sign",
+      "x": 25,
+      "y": 4,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_EAST",
+      "script": "FiveIsland_RocketWarehouse_EventScript_Computer2"
+    },
+    {
+      "type": "sign",
+      "x": 27,
+      "y": 10,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_SOUTH",
+      "script": "FiveIsland_RocketWarehouse_EventScript_BurnedCipher"
     }
   ]
 }

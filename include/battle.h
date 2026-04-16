@@ -281,6 +281,7 @@ struct AI_ThinkingStruct
 };
 
 extern u8 gActiveBattler;
+extern bool8 gExpShareCheck;
 extern u8 gBattlerTarget;
 extern u8 gAbsentBattlerFlags;
 

@@ -34,11 +34,3 @@ Text_SailHomeWeWill::
 Text_AsYouLikeThen::
 	.string "そうかい\n"
 	.string "まあ　すきにするが　いいさ$"
-
-SouthernIsland_Interior_Text_Sign::
-	.string "すべての　ゆめは　もうひとつの　げんじつ\n"
-	.string "それを　わすれるべからず‥‥$"
-
-SouthernIsland_Exterior_Text_Sign::
-	.string "きおく　かすみし　ものは\n"
-	.string "こころに　きざみつける　ことを　のぞむ‥‥$"

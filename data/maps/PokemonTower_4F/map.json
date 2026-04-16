@@ -98,6 +98,21 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "PokemonTower_4F_EventScript_ItemGreatBall",
       "flag": "FLAG_HIDE_POKEMON_TOWER_4F_GREAT_BALL"
+    },
+    {
+      "local_id": "LOCALID_FORTUNE_TELLER",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_FORTUNE_TELLER",
+      "x": 4,
+      "y": 10,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "PokemonTower_4F_EventScript_FortuneTeller",
+      "flag": "FLAG_HIDE_TOWER_FT"
     }
   ],
   "warp_events": [

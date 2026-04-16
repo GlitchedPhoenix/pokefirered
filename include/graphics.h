@@ -2462,6 +2462,8 @@ extern const u32 gTrainerFrontPic_RSSwimmerM[];
 extern const u32 gTrainerFrontPic_RSBlackBelt[];
 extern const u32 gTrainerFrontPic_Guitarist[];
 extern const u32 gTrainerFrontPic_Kindler[];
+extern const u32 gTrainerPalette_FortuneTeller[];
+extern const u32 gTrainerFrontPic_FortuneTeller[];
 extern const u32 gTrainerFrontPic_RSCamper[];
 extern const u32 gTrainerFrontPic_BugManiac[];
 extern const u32 gTrainerFrontPic_RSPsychicM[];
@@ -3280,6 +3282,51 @@ extern const u32 gItemIconPalette_PowderJar[];
 extern const u32 gItemIcon_Gem[];
 extern const u32 gItemIconPalette_Ruby[];
 extern const u32 gItemIconPalette_Sapphire[];
+extern const u32 gItemIconPalette_Emerald[];
+extern const u32 gItemIcon_TornScrap1[];
+extern const u32 gItemIcon_TornScrap2[];
+extern const u32 gItemIcon_TornScrap3[];
+
+extern const u32 gItemIconPalette_OldSeaMap[];
+extern const u32 gItemIcon_OldSeaMap[];
+extern const u32 gItemIcon_RippedPage[];
+
+extern const u32 gMailTilemap_Sapphire[];
+extern const u32 gMailTiles_Sapphire[];
+extern const u16 gMailPalette_Sapphire[];
+extern const u32 gMailTiles_Ruby[];
+extern const u16 gMailPalette_Ruby[];
+extern const u32 gMailTiles_Emerald[];
+extern const u16 gMailPalette_Emerald[];
+extern const u32 gMailTiles_FireRed[];
+extern const u16 gMailPalette_FireRed[];
+extern const u32 gMailTiles_LeafGreen[];
+extern const u16 gMailPalette_LeafGreen[];
+
+extern const u32 gItemIcon_MagmaCuff[];
+extern const u32 gItemIcon_AquaNecklace[];
+extern const u32 gItemIcon_TempestPin[];
+extern const u32 gItemIcon_FlameBrooch[];
+extern const u32 gItemIcon_IvyBand[];
+extern const u32 gItemIcon_OceanAnklet[];
+
+extern const u32 gItemIconPalette_MagmaCuff[];
+extern const u32 gItemIconPalette_AquaNecklace[];
+extern const u32 gItemIconPalette_TempestPin[];
+extern const u32 gItemIconPalette_FlameBrooch[];
+extern const u32 gItemIconPalette_IvyBand[];
+extern const u32 gItemIconPalette_OceanAnklet[];
+
+extern const u32 gItemIcon_RubyMail[];
+extern const u32 gItemIcon_SapphireMail[];
+extern const u32 gItemIconPalette_RSMail[];
+extern const u32 gItemIcon_EmeraldMail[];
+extern const u32 gItemIcon_FireMail[];
+extern const u32 gItemIconPalette_EmeraldMail[];
+extern const u32 gItemIcon_LeafMail[];
+extern const u32 gItemIconPalette_LeafMail[];
+
+extern const u32 gItemIconPalette_BerryPunch[];
 extern const u32 gItemIcon_ReturnToFieldArrow[];
 extern const u32 gItemIconPalette_ReturnToFieldArrow[];
 

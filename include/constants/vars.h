@@ -189,20 +189,20 @@
 #define VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F                             0x4089
 #define VAR_MAP_SCENE_CINNABAR_ISLAND_2                                        0x408A
 #define VAR_MAP_SCENE_MT_MOON_B2F                                              0x408B
+#define VAR_TORN_SCRAP_PROGRESS        								           0x408C
+#define VAR_NAVEL_ROCK_PROGRESS                                                0x408D
+#define VAR_FARAWAY_ISLAND_STEP_COUNTER                                        0x408E
+#define VAR_TICKET_SHOWN                                                       0x408F
+#define VAR_NEW_TICKETS                                                        0x4090
+#define VAR_EMAIL_HINT                                                         0x4091
+#define VAR_GIOVANNI_ALTERING_CAVE                                             0x4092
 
 
-#define VAR_0x408C                 0x408C
-#define VAR_0x408D                 0x408D
-#define VAR_0x408E                 0x408E
-#define VAR_0x408F                 0x408F
-#define VAR_0x4090                 0x4090
-#define VAR_0x4091                 0x4091
-#define VAR_0x4092                 0x4092
-#define VAR_0x4093                 0x4093
-#define VAR_0x4094                 0x4094
-#define VAR_0x4095                 0x4095
-#define VAR_0x4096                 0x4096
-#define VAR_0x4097                 0x4097
+#define VAR_REPEL_LAST_USED                 0x4093
+#define VAR_CONVENIENCE_ROOM                 0x4094
+#define VAR_FORTUNE_TELLER_STATE                 0x4095
+#define VAR_ARTIFACTS_OBTAINED                 0x4096
+#define VAR_ARTIFACT_CAP                 0x4097
 #define VAR_0x4098                 0x4098
 #define VAR_0x4099                 0x4099
 #define VAR_0x409A                 0x409A

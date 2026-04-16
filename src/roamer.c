@@ -79,27 +79,14 @@ void ClearRoamerData(void)
     }
 }
 
-#define GetRoamerSpecies() ({\
-    u16 a;\
-    switch (GetStarterSpecies())\
-    {\
-    default:\
-        a = SPECIES_RAIKOU;\
-        break;\
-    case SPECIES_BULBASAUR:\
-        a = SPECIES_ENTEI;\
-        break;\
-    case SPECIES_CHARMANDER:\
-        a = SPECIES_SUICUNE;\
-        break;\
-    }\
-    a;\
-})
-
 void CreateInitialRoamerMon(void)
 {
     struct Pokemon * mon = &gEnemyParty[0];
-    u16 species = GetRoamerSpecies();
+#if defined(FIRERED)
+    u16 species = SPECIES_ENTEI;
+#else
+	u16 species = SPECIES_RAIKOU;
+#endif
     CreateMon(mon, species, 50, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
     ROAMER->species = species;
     ROAMER->level = 50;
@@ -211,12 +198,8 @@ void CreateRoamerMonInstance(void)
     CreateMonWithIVsPersonality(mon, ROAMER->species, ROAMER->level, ROAMER->ivs, ROAMER->personality);
 // The roamer's status field is u8, but SetMonData expects status to be u32, so will set the roamer's status
 // using the status field and the following 3 bytes (cool, beauty, and cute).
-#ifdef BUGFIX
     status = ROAMER->status;
     SetMonData(mon, MON_DATA_STATUS, &status);
-#else
-    SetMonData(mon, MON_DATA_STATUS, &ROAMER->status);
-#endif
     SetMonData(mon, MON_DATA_HP, &ROAMER->hp);
     SetMonData(mon, MON_DATA_COOL, &ROAMER->cool);
     SetMonData(mon, MON_DATA_BEAUTY, &ROAMER->beauty);

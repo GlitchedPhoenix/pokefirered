@@ -725,7 +725,7 @@ static void List_ItemPrintFunc(u8 windowId, u32 itemIndex, u8 y)
             StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
             TMCase_Print(windowId, FONT_SMALL, gStringVar4, 126, y, 0, 0, TEXT_SKIP_DRAW, COLOR_DARK);
         }
-        else
+        else if ((BagGetItemIdByPocketPosition(POCKET_TM_CASE, itemIndex)) >= ITEM_HM01)
         {
             PlaceHMTileInWindow(windowId, 8, y);
         }
@@ -981,7 +981,7 @@ static void Task_SelectedTMHM_Field(u8 taskId)
     StringAppend(strbuf, gText_Var1IsSelected + 2); // +2 skips over the stringvar
     TMCase_Print(WIN_SELECTED_MSG, FONT_NORMAL, strbuf, 0, 2, 1, 0, 0, COLOR_DARK);
     Free(strbuf);
-    if (IS_HM(gSpecialVar_ItemId))
+    if (IS_HM(gSpecialVar_ItemId) && (gSpecialVar_ItemId >= ITEM_HM01))
     {
         PlaceHMTileInWindow(WIN_SELECTED_MSG, 0, 2);
         CopyWindowToVram(WIN_SELECTED_MSG, COPYWIN_GFX);

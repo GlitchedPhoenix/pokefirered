@@ -1146,7 +1146,7 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
     }
 
     // Check if an egg should be produced
-    if (daycare->offspringPersonality == 0 && validEggs == DAYCARE_MON_COUNT && (daycare->mons[1].steps & 0xFF) == 0xFF)
+    if (daycare->offspringPersonality == 0 && validEggs == DAYCARE_MON_COUNT && ((FlagGet(FLAG_TEMPEST_PIN_ACTIVE) && (daycare->mons[1].steps & 0xFF) == 0x8F) || ((daycare->mons[1].steps & 0xFF) == 0xFF)))
     {
         u8 compatibility = GetDaycareCompatibilityScore(daycare);
         if (compatibility > (Random() * 100u) / USHRT_MAX)
@@ -1154,7 +1154,7 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
     }
 
     // Hatch Egg
-    if (++daycare->stepCounter == 255)
+    if ((FlagGet(FLAG_TEMPEST_PIN_ACTIVE) && ++daycare->stepCounter == 127) || ++daycare->stepCounter == 255)
     {
         u32 steps;
 

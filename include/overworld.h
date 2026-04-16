@@ -77,6 +77,7 @@ u8 IsMapTypeOutdoors(u8 mapType);
 void Overworld_ClearSavedMusic(void);
 bool32 Overworld_MusicCanOverrideMapMusic(u16 song);
 
+void CheckQuickNurse(void);
 void SetFlashLevel(s32 a1);
 u8 Overworld_GetFlashLevel(void);
 
@@ -179,10 +180,6 @@ void StoreInitialPlayerAvatarState(void);
 void UpdateEscapeWarp(s16 x, s16 y);
 bool8 SetDiveWarpEmerge(u16 x, u16 y);
 bool8 SetDiveWarpDive(u16 x, u16 y);
-
-#if REVISION >= 0xA
-void ClearFieldCallback(void);
-#endif
 
 extern u16 *gBGTilemapBuffers1;
 extern u16 *gBGTilemapBuffers2;

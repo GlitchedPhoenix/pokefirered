@@ -35,6 +35,9 @@
 // gTileset_DepartmentStore
 #define METATILE_DepartmentStore_ElevatorDoor  0x28D
 
+// gTileset_DiglettsCave
+#define METATILE_DiglettsCave_TanobyFall  0x31C
+
 // gTileset_FuchsiaCity
 #define METATILE_FuchsiaCity_Door                           0x2BF
 #define METATILE_FuchsiaCity_SafariZoneDoor                 0x2D2
@@ -57,6 +60,7 @@
 #define METATILE_GameCorner_StairsTop                 0x29E
 
 // gTileset_General
+#define METATILE_General_BrickPath               0x1C1
 #define METATILE_General_CalmWater               0x12B
 #define METATILE_General_Door                    0x03D
 #define METATILE_General_Plain_Grass             0x00D
@@ -165,6 +169,9 @@
 #define METATILE_PokemonMansion_Wall_EndPost_Bottom                      0x2AD
 #define METATILE_PokemonMansion_Wall_EndPost_Mid                         0x2A5
 
+// gTileset_RockTunnel
+#define METATILE_RockTunnel_CaveLadder  0x285
+
 // gTileset_SSAnne
 #define METATILE_SSAnne_Door  0x281
 
@@ -254,6 +261,9 @@
 #define METATILE_TrainerTower_RoofElevatorDoor       0x356
 
 // gTileset_VermilionCity
+#define METATILE_VermilionCity_Boundary1   0x328
+#define METATILE_VermilionCity_Boundary2   0x31D
+#define METATILE_VermilionCity_Boundary3   0x31E
 #define METATILE_VermilionCity_Door        0x29E
 #define METATILE_VermilionCity_SSAnneWarp  0x2E1
 

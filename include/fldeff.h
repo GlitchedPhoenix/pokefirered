@@ -17,6 +17,8 @@ u8 MapTransitionIsExit(u8 lightLevel, u8 mapType);
 u8 MapTransitionIsEnter(u8 mapType1, u8 mapType2);
 bool8 SetUpFieldMove_Flash(void);
 void CB2_DoChangeMap(void);
+bool8 ShouldDoAlteringCaveEffect(void);
+void SetUpPuzzleEffectAlteringCave(void);
 
 // cut
 bool8 SetUpFieldMove_Cut(void);

@@ -355,3 +355,68 @@ OneIsland_PokemonCenter_1F_Text_MachineLinkedWithKantoAndHoenn::
 OneIsland_PokemonCenter_1F_Text_ObtainedTriPass::
     .string "Obtained the TRI-PASS!$"
 
+TornScrap_Text_ThatScrapofPaper::
+	.string "Hm?\p"
+	.string "Hey {PLAYER}, what's that scrap\n"
+	.string "of paper in your pocket?$"
+
+TornScrap_Text_ThoseScrapsofPaper::
+	.string "Hm?\p"
+	.string "Hey {PLAYER}, what's those scraps\n"
+	.string "of paper in your pocket?$"
+
+TornScrap_Text_TicketSingular::
+	.string "O-oh? This is...\p"
+	.string "{PLAYER}, where did you find this?!\p"
+	.string "I believe you may have found a\n"
+	.string "piece of a MYSTICTICKET!$"
+
+TornScrap_Text_TicketPlural::
+	.string "O-oh? These are...\p"
+	.string "{PLAYER}, where did you find these?!\p"
+	.string "I believe you may have found pieces\n"
+	.string "of a MYSTICTICKET!$"
+
+TornScrap_Text_RestrictedIsland::
+	.string "They're incredibly rare. Normally,\n"
+	.string "civilians aren't allowed anywhere\l"
+	.string "near NAVEL ROCK.$"
+
+TornScrap_Text_NoPartial::
+	.string "I don't think the dock will take\n"
+	.string "a partial ticket, though.\p"
+	.string "But if you can find the rest of it,\n"
+	.string "I have some tape to fix it up\l"
+	.string "for you!$"
+
+TornScrap_Text_AllPieces::
+	.string "Looks like all the pieces are here.\n"
+	.string "Let me tape it up for you!$"
+
+TornScrap_Text_AnotherPiece::
+	.string "Oh? You got another piece of the\n"
+	.string "MYSTICTICKET?\p"
+	.string "That's great, but I still think\n"
+	.string "we're missing a chunk...$"
+
+TornScrap_Text_LastPiece::
+	.string "Oh? You found the last piece of the\n"
+	.string "MYSTICTICKET?\p"
+	.string "Awesome! Let me borrow these for\n"
+	.string "a second...$"
+
+TornScrap_Text_OtherPieces::
+	.string "Oh? You found the other pieces of\n"
+	.string "the MYSTICTICKET?\p"
+	.string "Awesome! Let me borrow these for\n"
+	.string "a second...$"
+
+TornScrap_Text_ThereYouGo::
+	.string "There you go! All patched up and\n"
+	.string "ready to go!\p"
+	.string "Me? Thank you, but I'm alright.\p"
+	.string "I'm not really the explorer type,\n"
+	.string "ehehe...$"
+
+TornScrap_Text_ReceivedTicket::
+	.string "{PLAYER} received the MYSTICTICKET!$"

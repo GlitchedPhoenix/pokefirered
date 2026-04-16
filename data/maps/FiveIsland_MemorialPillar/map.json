@@ -91,9 +91,31 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "FiveIsland_MemorialPillar_EventScript_ItemMetalCoat",
       "flag": "FLAG_HIDE_FIVE_ISLAND_MEMORIAL_PILLAR_METAL_COAT"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 11,
+      "y": 49,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "FiveIsland_MemorialPillar_EventScript_ItemTM42",
+      "flag": "FLAG_HIDE_MEMORIAL_PILLAR_TM42"
     }
   ],
-  "warp_events": [],
+  "warp_events": [
+    {
+      "x": 12,
+      "y": 44,
+      "elevation": 0,
+      "dest_map": "MAP_FIVE_ISLAND_MEMORIAL_PILLAR",
+      "dest_warp_id": "0"
+    }
+  ],
   "coord_events": [],
   "bg_events": [
     {

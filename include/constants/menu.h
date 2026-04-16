@@ -4,6 +4,8 @@
 #define SCR_MENU_CANCEL 127
 #define SCR_MENU_UNSET  255
 
+#define MAX_MULTICHOICE_WIDTH 28
+
 #define MULTICHOICE_YES_NO                                      0
 #define MULTICHOICE_EEVEELUTIONS                                1
 #define MULTICHOICE_TRAINER_CARD_ICON_TINT                      2
@@ -69,6 +71,10 @@
 #define MULTICHOICE_62                                         62
 #define MULTICHOICE_JOIN_OR_LEAD                               63
 #define MULTICHOICE_TRAINER_TOWER_MODE                         64
+#define MULTICHOICE_SEAGALLOP_EVENT                            65
+#define MULTI_ARTIFACT_CHOICER                                 66
+#define MULTI_ARTIFACTS_AND_FORTUNES                           67
+#define MULTI_ARTIFACTS_ONLY                                   68
 
 #define MULTICHOICE_NONE                                      255
 
@@ -79,6 +85,23 @@
 #define LISTMENU_WIRELESS_LECTURE_HEADERS  4
 #define LISTMENU_BERRY_POWDER              5
 #define LISTMENU_TRAINER_TOWER_FLOORS      6
+
+#define SEAGALLOP_SELECTION_SEVII_ISLANDS     1
+#define SEAGALLOP_SELECTION_NAVEL_ROCK        2
+#define SEAGALLOP_SELECTION_BIRTH_ISLAND      3
+#define SEAGALLOP_SELECTION_SOUTHERN_ISLAND   4
+#define SEAGALLOP_SELECTION_FARAWAY_ISLAND    5
+#define SEAGALLOP_SELECTION_EXIT              6
+#define SEAGALLOP_SELECTION_COUNT             7
+
+#define ARTIFACT_SELECTION_MAGMA_BRACER      0
+#define ARTIFACT_SELECTION_AQUA_NECKLACE     1
+#define ARTIFACT_SELECTION_TEMPEST_PIN       2
+#define ARTIFACT_SELECTION_FLAME_BROOCH      3
+#define ARTIFACT_SELECTION_IVY_BAND          4
+#define ARTIFACT_SELECTION_OCEAN_ANKLET      5
+#define ARTIFACT_SELECTION_CANCEL            6
+#define ARTIFACT_SELECTION_COUNT             7
 
 // Std String Ids
 #define STDSTRING_COOL              0
@@ -110,15 +133,5 @@
 #define STDSTRING_POKEBALLS_POCKET  26
 #define STDSTRING_TM_CASE           27
 #define STDSTRING_BERRY_POUCH       28
-
-enum
-{
-    PSA_MON_ATTR_TMHM_X_POS,
-    PSA_MON_ATTR_TMHM_Y_POS,
-    PSA_MON_ATTR_Y_OFFSET,
-    PSA_MON_ATTR_ITEM_X_POS,
-    PSA_MON_ATTR_ITEM_Y_POS,
-    PSA_MON_ATTR_COUNT
-};
 
 #endif //GUARD_CONSTANTS_MENU_H

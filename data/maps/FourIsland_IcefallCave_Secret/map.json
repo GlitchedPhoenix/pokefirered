@@ -1,0 +1,44 @@
+{
+  "id": "MAP_FOUR_ISLAND_ICEFALL_CAVE_SECRET",
+  "name": "FourIsland_IcefallCave_Secret",
+  "layout": "LAYOUT_FOUR_ISLAND_ICEFALL_CAVE_SECRET",
+  "music": "MUS_SEVII_CAVE",
+  "region_map_section": "MAPSEC_ICEFALL_CAVE",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 13,
+      "y": 3,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "FourIsland_IcefallCave_Secret_TornScrap2",
+      "flag": "FLAG_HIDE_TORN_SCRAP_2"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 15,
+      "y": 17,
+      "elevation": 0,
+      "dest_map": "MAP_FOUR_ISLAND_ICEFALL_CAVE_B1F",
+      "dest_warp_id": "3"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": []
+}

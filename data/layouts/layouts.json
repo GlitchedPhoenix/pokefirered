@@ -253,8 +253,6 @@
       "border_filepath": "data/layouts/House5/border.bin",
       "blockdata_filepath": "data/layouts/House5/map.bin"
     },
-    {},
-    {},
     {
       "id": "LAYOUT_UNUSED1",
       "name": "Unused1_Layout",
@@ -315,7 +313,6 @@
       "border_filepath": "data/layouts/PewterCity_Gym/border.bin",
       "blockdata_filepath": "data/layouts/PewterCity_Gym/map.bin"
     },
-    {},
     {
       "id": "LAYOUT_FOUR_ISLAND_LORELEIS_HOUSE",
       "name": "FourIsland_LoreleisHouse_Layout",
@@ -412,14 +409,6 @@
       "border_filepath": "data/layouts/ViridianCity_Gym/border.bin",
       "blockdata_filepath": "data/layouts/ViridianCity_Gym/map.bin"
     },
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
     {
       "id": "LAYOUT_RS_SAFARI_ZONE_ENTRANCE",
       "name": "RS_SafariZone_Entrance_Layout",
@@ -540,7 +529,6 @@
       "border_filepath": "data/layouts/FortreeCity_DecorationShop/border.bin",
       "blockdata_filepath": "data/layouts/FortreeCity_DecorationShop/map.bin"
     },
-    {},
     {
       "id": "LAYOUT_RS_BATTLE_TOWER",
       "name": "RS_BattleTower_Layout",
@@ -553,10 +541,6 @@
       "border_filepath": "data/layouts/RS_BattleTower/border.bin",
       "blockdata_filepath": "data/layouts/RS_BattleTower/map.bin"
     },
-    {},
-    {},
-    {},
-    {},
     {
       "id": "LAYOUT_SS_TIDAL_CORRIDOR",
       "name": "SSTidal_Corridor_Layout",
@@ -725,7 +709,6 @@
       "border_filepath": "data/layouts/RustboroCity_Flat1_2F/border.bin",
       "blockdata_filepath": "data/layouts/RustboroCity_Flat1_2F/map.bin"
     },
-    {},
     {
       "id": "LAYOUT_RS_SAFARI_ZONE_REST_HOUSE",
       "name": "RS_SafariZone_RestHouse_Layout",
@@ -1902,7 +1885,6 @@
       "border_filepath": "data/layouts/UndergroundPath_NorthSouthTunnel/border.bin",
       "blockdata_filepath": "data/layouts/UndergroundPath_NorthSouthTunnel/map.bin"
     },
-    {},
     {
       "id": "LAYOUT_ROUTE12_NORTH_ENTRANCE_1F",
       "name": "Route12_NorthEntrance_1F_Layout",
@@ -4398,6 +4380,162 @@
       "secondary_tileset": "gTileset_MtEmber",
       "border_filepath": "data/layouts/OneIsland_KindleRoad_EmberSpa/border.bin",
       "blockdata_filepath": "data/layouts/OneIsland_KindleRoad_EmberSpa/map.bin"
+    },
+    {
+      "id": "LAYOUT_FOUR_ISLAND_ICEFALL_CAVE_SECRET",
+      "name": "FourIsland_IcefallCave_Secret_Layout",
+      "width": 24,
+      "height": 20,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_SeafoamIslands",
+      "border_filepath": "data/layouts/FourIsland_IcefallCave_Secret/border.bin",
+      "blockdata_filepath": "data/layouts/FourIsland_IcefallCave_Secret/map.bin"
+    },
+    {
+      "id": "LAYOUT_DEBUG_ROOM",
+      "name": "DebugRoom_Layout",
+      "width": 20,
+      "height": 20,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_Cave",
+      "border_filepath": "data/layouts/DebugRoom/border.bin",
+      "blockdata_filepath": "data/layouts/DebugRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_SIX_ISLAND_DOTTED_HOLE_SECRET",
+      "name": "SixIsland_DottedHole_Secret_Layout",
+      "width": 16,
+      "height": 15,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_NavelRock",
+      "border_filepath": "data/layouts/SixIsland_DottedHole_Secret/border.bin",
+      "blockdata_filepath": "data/layouts/SixIsland_DottedHole_Secret/map.bin"
+    },
+    {
+      "id": "LAYOUT_NAVEL_ROCK_FORK_SPECIAL",
+      "name": "NavelRock_Fork_Special_Layout",
+      "width": 30,
+      "height": 100,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_SeafoamIslands",
+      "border_filepath": "data/layouts/NavelRock_Fork_Special/border.bin",
+      "blockdata_filepath": "data/layouts/NavelRock_Fork_Special/map.bin"
+    },
+    {
+      "id": "LAYOUT_NAVEL_ROCK_STRAIGHT_PATH_SPECIAL",
+      "name": "NavelRock_StraightPath_Special_Layout",
+      "width": 30,
+      "height": 100,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_SeafoamIslands",
+      "border_filepath": "data/layouts/NavelRock_StraightPath_Special/border.bin",
+      "blockdata_filepath": "data/layouts/NavelRock_StraightPath_Special/map.bin"
+    },
+    {
+      "id": "LAYOUT_NAVEL_ROCK_1F_SPECIAL",
+      "name": "NavelRock_1F_Special_Layout",
+      "width": 17,
+      "height": 26,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_SeafoamIslands",
+      "border_filepath": "data/layouts/NavelRock_1F_Special/border.bin",
+      "blockdata_filepath": "data/layouts/NavelRock_1F_Special/map.bin"
+    },
+    {
+      "id": "LAYOUT_NAVEL_ROCK_B1F_SPECIAL",
+      "name": "NavelRock_B1F_Special_Layout",
+      "width": 17,
+      "height": 7,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_SeafoamIslands",
+      "border_filepath": "data/layouts/NavelRock_B1F_Special/border.bin",
+      "blockdata_filepath": "data/layouts/NavelRock_B1F_Special/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOUTHERN_ISLAND_EXTERIOR",
+      "name": "SouthernIsland_Exterior_Layout",
+      "width": 35,
+      "height": 30,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_VermilionCity",
+      "border_filepath": "data/layouts/SouthernIsland_Exterior/border.bin",
+      "blockdata_filepath": "data/layouts/SouthernIsland_Exterior/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOUTHERN_ISLAND_INTERIOR",
+      "name": "SouthernIsland_Interior_Layout",
+      "width": 27,
+      "height": 24,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_VermilionCity",
+      "border_filepath": "data/layouts/SouthernIsland_Interior/border.bin",
+      "blockdata_filepath": "data/layouts/SouthernIsland_Interior/map.bin"
+    },
+    {
+      "id": "LAYOUT_FARAWAY_ISLAND_ENTRANCE",
+      "name": "FarawayIsland_Entrance_Layout",
+      "width": 36,
+      "height": 46,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_VermilionCity",
+      "border_filepath": "data/layouts/FarawayIsland_Entrance/border.bin",
+      "blockdata_filepath": "data/layouts/FarawayIsland_Entrance/map.bin"
+    },
+    {
+      "id": "LAYOUT_FARAWAY_ISLAND_INTERIOR",
+      "name": "FarawayIsland_Interior_Layout",
+      "width": 29,
+      "height": 26,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_VermilionCity",
+      "border_filepath": "data/layouts/FarawayIsland_Interior/border.bin",
+      "blockdata_filepath": "data/layouts/FarawayIsland_Interior/map.bin"
+    },
+    {
+      "id": "LAYOUT_SIX_ISLAND_ALTERING_CAVE_SECRET",
+      "name": "SixIsland_AlteringCave_Secret_Layout",
+      "width": 16,
+      "height": 16,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_RockTunnel",
+      "border_filepath": "data/layouts/SixIsland_AlteringCave_Secret/border.bin",
+      "blockdata_filepath": "data/layouts/SixIsland_AlteringCave_Secret/map.bin"
+    },
+    {
+      "id": "LAYOUT_CONVENIENCE_ROOM",
+      "name": "ConvenienceRoom_Layout",
+      "width": 17,
+      "height": 10,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_GenericBuilding1",
+      "border_filepath": "data/layouts/ConvenienceRoom/border.bin",
+      "blockdata_filepath": "data/layouts/ConvenienceRoom/map.bin"
     }
   ]
 }

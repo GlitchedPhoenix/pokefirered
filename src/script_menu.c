@@ -1,6 +1,7 @@
 #include "global.h"
 #include "gflib.h"
 #include "menu.h"
+#include "item.h"
 #include "task.h"
 #include "script_menu.h"
 #include "quest_log.h"
@@ -11,6 +12,7 @@
 #include "field_effect.h"
 #include "event_scripts.h"
 #include "constants/songs.h"
+#include "constants/items.h"
 #include "constants/seagallop.h"
 #include "constants/menu.h"
 
@@ -25,15 +27,20 @@ struct MultichoiceListStruct
 };
 
 static EWRAM_DATA u8 sDelay = 0;
+static u8 sArtifactSelections[ARTIFACT_SELECTION_COUNT];
 
 static void DrawVerticalMultichoiceMenu(u8 left, u8 top, u8 mcId, u8 ignoreBpress, u8 initPos);
 static u8 GetMCWindowHeight(u8 count);
+static u8 sSeagallopSelections[SEAGALLOP_SELECTION_COUNT];
 static void CreateMCMenuInputHandlerTask(u8 ignoreBpress, u8 count, u8 windowId, u8 mcId);
 static void Task_MultichoiceMenu_HandleInput(u8 taskId);
 static void MultiChoicePrintHelpDescription(u8 mcId);
 static void Task_YesNoMenu_HandleInput(u8 taskId);
 static void Hask_MultichoiceGridMenu_HandleInput(u8 taskId);
+static void CreateSeagallopMultichoice(void);
+static void CreateArtifactMultichoice(void);
 static void CreatePCMenuWindow(void);
+static void CreateEventIslandMultichoice(void);
 static bool8 PicboxWait(void);
 static void DestroyScriptMenuWindow(u8 windowId);
 static u8 CreateWindowFromRect(u8 left, u8 top, u8 width, u8 height);
@@ -338,14 +345,8 @@ static const struct MenuAction sMultichoiceList_TradeCenter_Colosseum[] = {
 };
 
 static const struct MenuAction sMultichoiceList_Link_Wireless[] = {
-#if REVISION >= 0xA
-    // The default is wireless here as it's always emulated by Sloop
-    { gText_Wireless },
-    { gText_GameLinkCable },
-#else
     { gText_GameLinkCable },
     { gText_Wireless },
-#endif
     { gOtherText_Exit }
 };
 
@@ -498,6 +499,23 @@ static const struct MenuAction sMultichoiceList_TrainerTowerMode[] = {
     { gOtherText_Exit }
 };
 
+static const struct MenuAction MultichoiceList_ArtifactsOnly[] =
+{
+    {gText_GetArtifacts},
+    {gText_ExplainArtifacts},
+    {gText_ReturnArtifacts},
+    {gText_Exit},
+};
+
+static const struct MenuAction MultichoiceList_ArtifactsAndFortunes[] =
+{
+    {gText_GetArtifacts},
+    {gText_ExplainArtifacts},
+    {gText_ReturnArtifacts},
+	{gText_FortuneTelling},
+    {gText_Exit},
+};
+
 static const struct MenuAction sMultichoiceList_Exit[] = {
     { gOtherText_Exit }
 };
@@ -568,6 +586,10 @@ static const struct MultichoiceListStruct sMultichoiceLists[] = {
     [MULTICHOICE_62]                                         = MULTICHOICE(sMultichoiceList_62),
     [MULTICHOICE_JOIN_OR_LEAD]                               = MULTICHOICE(sMultichoiceList_JoinOrLead),
     [MULTICHOICE_TRAINER_TOWER_MODE]                         = MULTICHOICE(sMultichoiceList_TrainerTowerMode),
+	[MULTICHOICE_SEAGALLOP_EVENT]                            = MULTICHOICE(sMultichoiceList_Exit),
+	[MULTI_ARTIFACT_CHOICER]                                 = MULTICHOICE(sMultichoiceList_Exit),
+	[MULTI_ARTIFACTS_AND_FORTUNES]                           = MULTICHOICE(MultichoiceList_ArtifactsAndFortunes),
+	[MULTI_ARTIFACTS_ONLY]                                   = MULTICHOICE(MultichoiceList_ArtifactsOnly),
 };
 
 // From Cool to Berries goes unused
@@ -671,6 +693,39 @@ static const u8 *const sSeagallopDestStrings[] = {
     [SEAGALLOP_SIX_ISLAND]     = gText_SixIsland,
     [SEAGALLOP_SEVEN_ISLAND]   = gText_SevenIsland,
 };
+
+static const u8 *const sArtifactChoices[ARTIFACT_SELECTION_COUNT] =
+{
+    [ARTIFACT_SELECTION_MAGMA_BRACER]      = gText_MagmaBracer,
+    [ARTIFACT_SELECTION_AQUA_NECKLACE]     = gText_AquaNecklace,
+    [ARTIFACT_SELECTION_TEMPEST_PIN]       = gText_TempestPin,
+    [ARTIFACT_SELECTION_FLAME_BROOCH]      = gText_FlameBrooch,
+    [ARTIFACT_SELECTION_IVY_BAND]          = gText_IvyBand,
+    [ARTIFACT_SELECTION_OCEAN_ANKLET]      = gText_OceanAnklet,
+    [ARTIFACT_SELECTION_CANCEL]            = gPCText_Cancel,
+};
+
+static int DisplayTextAndGetWidthInternal(const u8 *str)
+{
+    u8 temp[64];
+    StringExpandPlaceholders(temp, str);
+    return GetStringWidth(FONT_NORMAL, temp, 0);
+}
+
+int DisplayTextAndGetWidth(const u8 *str, int prevWidth)
+{
+    int width = DisplayTextAndGetWidthInternal(str);
+    if (width < prevWidth)
+    {
+        width = prevWidth;
+    }
+    return width;
+}
+
+int ConvertPixelWidthToTileWidth(int width)
+{
+    return (((width + 9) / 8) + 1) > MAX_MULTICHOICE_WIDTH ? MAX_MULTICHOICE_WIDTH : (((width + 9) / 8) + 1);
+}
 
 static u16 GetStringTilesWide(const u8 *str)
 {
@@ -803,6 +858,97 @@ static void CreateMCMenuInputHandlerTask(u8 ignoreBpress, u8 count, u8 windowId,
     gTasks[taskId].tWindowId = windowId;
     gTasks[taskId].tMultichoiceId = mcId;
     MultiChoicePrintHelpDescription(mcId);
+}
+
+static void CreateArtifactMultichoice(void)
+{
+    u8 selectionCount = 0;
+    u8 count;
+    u32 pixelWidth;
+    u8 width;
+    u8 windowId;
+    u8 i;
+    u32 j;
+
+    for (i = 0; i < ARTIFACT_SELECTION_COUNT; i++)
+    {
+        sArtifactSelections[i] = 0xFF;
+    }
+
+    GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_WIDTH);
+
+	if (FlagGet(FLAG_UNLOCKED_MAGMA_BRACER) == TRUE)
+	{
+		sArtifactSelections[selectionCount] = ARTIFACT_SELECTION_MAGMA_BRACER;
+		selectionCount++;
+	}
+
+	if (FlagGet(FLAG_UNLOCKED_AQUA_NECKLACE) == TRUE)
+	{
+		sArtifactSelections[selectionCount] = ARTIFACT_SELECTION_AQUA_NECKLACE;
+		selectionCount++;
+	}
+	
+	if (FlagGet(FLAG_UNLOCKED_TEMPEST_PIN) == TRUE)
+	{
+		sArtifactSelections[selectionCount] = ARTIFACT_SELECTION_TEMPEST_PIN;
+		selectionCount++;
+	}
+
+	if (FlagGet(FLAG_UNLOCKED_FLAME_BROOCH) == TRUE)
+	{
+		sArtifactSelections[selectionCount] = ARTIFACT_SELECTION_FLAME_BROOCH;
+		selectionCount++;
+	}
+	
+	if (FlagGet(FLAG_UNLOCKED_IVY_BAND) == TRUE)
+	{
+		sArtifactSelections[selectionCount] = ARTIFACT_SELECTION_IVY_BAND;
+		selectionCount++;
+	}
+
+	if (FlagGet(FLAG_UNLOCKED_OCEAN_ANKLET) == TRUE)
+	{
+		sArtifactSelections[selectionCount] = ARTIFACT_SELECTION_OCEAN_ANKLET;
+		selectionCount++;
+	}
+
+    count = selectionCount;
+	pixelWidth = 0;
+
+	for (j = 0; j < ARTIFACT_SELECTION_COUNT; j++)
+	{
+		u8 selection = sArtifactSelections[j];
+		if (selection != 0xFF)
+		{
+			pixelWidth = DisplayTextAndGetWidth(sArtifactChoices[selection], pixelWidth);
+		}
+	}
+
+	width = ConvertPixelWidthToTileWidth(pixelWidth);
+	windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
+	SetStdWindowBorderStyle(windowId, FALSE);
+
+	for (selectionCount = 0, i = 0; i < ARTIFACT_SELECTION_COUNT; i++)
+	{
+		if (sArtifactSelections[i] != 0xFF)
+		{
+			AddTextPrinterParameterized(windowId, FONT_NORMAL, sArtifactChoices[sArtifactSelections[i]], 8, selectionCount * 16 + 1, TEXT_SKIP_DRAW, NULL);
+			selectionCount++;
+		}
+	}
+
+	Menu_InitCursor(windowId, FONT_NORMAL, 0, 2, 16, count, 0);
+	CopyWindowToVram(windowId, COPYWIN_FULL);
+	CreateMCMenuInputHandlerTask(FALSE, count, windowId, MULTICHOICE_NONE);
+}
+
+void GetArtifactSelection(void)
+{
+    if (gSpecialVar_Result != SCR_MENU_CANCEL)
+    {
+        gSpecialVar_Result = sArtifactSelections[gSpecialVar_Result];
+    }
 }
 
 static void Task_MultichoiceMenu_HandleInput(u8 taskId)
@@ -1338,4 +1484,127 @@ u16 GetSelectedSeagallopDestination(void)
             return gSpecialVar_Result;
     }
     return SEAGALLOP_VERMILION_CITY;
+}
+
+bool8 ScriptMenu_CreateEventIslandMultichoice(void)
+{
+    if (FuncIsActiveTask(Task_MultichoiceMenu_HandleInput) == TRUE)
+    {
+        return FALSE;
+    }
+    else
+    {
+        gSpecialVar_Result = 0xFF;
+        CreateEventIslandMultichoice();
+        return TRUE;
+    }
+}
+
+bool8 ScriptMenu_CreateArtifactMultichoice(void)
+{
+    if (FuncIsActiveTask(Task_MultichoiceMenu_HandleInput) == TRUE)
+    {
+        return FALSE;
+    }
+    else
+    {
+        gSpecialVar_Result = 0xFF;
+        CreateArtifactMultichoice();
+        return TRUE;
+    }
+}
+
+static const u8 *const sSeagallopDestinations[SEAGALLOP_SELECTION_COUNT] =
+{
+	[SEAGALLOP_SELECTION_SEVII_ISLANDS]       = gText_SeviiIslands,
+    [SEAGALLOP_SELECTION_NAVEL_ROCK]          = gText_NavelRock,
+    [SEAGALLOP_SELECTION_BIRTH_ISLAND]        = gText_BirthIsland,
+    [SEAGALLOP_SELECTION_SOUTHERN_ISLAND]     = gText_SouthernIsland,
+	[SEAGALLOP_SELECTION_FARAWAY_ISLAND]      = gText_FarawayIsland,
+    [SEAGALLOP_SELECTION_EXIT]                = gText_Exit,
+};
+
+// gSpecialVar_0x8004 is 1 if the Sailor was shown multiple event tickets at the same time
+// otherwise gSpecialVar_0x8004 is 0
+static void CreateEventIslandMultichoice(void)
+{
+    u8 selectionCount = 0;
+    u32 pixelWidth;
+    u8 width;
+    u8 windowId;
+    u8 i;
+    u32 j;
+
+    for (i = 0; i < SEAGALLOP_SELECTION_COUNT; i++)
+    {
+        sSeagallopSelections[i] = 0xFF;
+    }
+
+    GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_WIDTH);
+	selectionCount = 0;
+	sSeagallopSelections[selectionCount] = SEAGALLOP_SELECTION_SEVII_ISLANDS;
+	selectionCount++;
+	
+	if (CheckBagHasItem(ITEM_MYSTIC_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_NAVEL_ROCK) == TRUE)
+    {
+		sSeagallopSelections[selectionCount] = SEAGALLOP_SELECTION_NAVEL_ROCK;
+		selectionCount++;
+    }
+
+    if (CheckBagHasItem(ITEM_AURORA_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_BIRTH_ISLAND) == TRUE)
+    {
+		sSeagallopSelections[selectionCount] = SEAGALLOP_SELECTION_BIRTH_ISLAND;
+		selectionCount++;
+    }
+
+    if (CheckBagHasItem(ITEM_EON_TICKET, 1) == TRUE)
+    {
+		sSeagallopSelections[selectionCount] = SEAGALLOP_SELECTION_SOUTHERN_ISLAND;
+		selectionCount++;
+    }
+
+    if (CheckBagHasItem(ITEM_NEW_SEA_MAP, 1) == TRUE)
+    {
+		sSeagallopSelections[selectionCount] = SEAGALLOP_SELECTION_FARAWAY_ISLAND;
+		selectionCount++;
+    }
+
+    sSeagallopSelections[selectionCount] = SEAGALLOP_SELECTION_EXIT;
+    selectionCount++;
+
+	pixelWidth = 0;
+
+	for (j = 0; j < SEAGALLOP_SELECTION_COUNT; j++)
+	{
+		u8 selection = sSeagallopSelections[j];
+		if (selection != 0xFF)
+		{
+			pixelWidth = DisplayTextAndGetWidth(sSeagallopDestinations[selection], pixelWidth);
+		}
+	}
+
+	width = ConvertPixelWidthToTileWidth(pixelWidth);
+	windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - selectionCount) * 2, width, selectionCount * 2);
+	SetStdWindowBorderStyle(windowId, 0);
+
+	for (selectionCount = 0, i = 0; i < SEAGALLOP_SELECTION_COUNT; i++)
+	{
+		if (sSeagallopSelections[i] != 0xFF)
+		{
+			AddTextPrinterParameterized(windowId, FONT_NORMAL, sSeagallopDestinations[sSeagallopSelections[i]], 8, selectionCount * 16 + 1, TEXT_SKIP_DRAW, NULL);
+			selectionCount++;
+		}
+	}
+
+	Menu_InitCursor(windowId, FONT_NORMAL, 0, 2, 16, selectionCount, 0);
+	CopyWindowToVram(windowId, COPYWIN_FULL);
+	CreateMCMenuInputHandlerTask(FALSE, selectionCount, windowId, MULTICHOICE_SEAGALLOP_EVENT);
+}
+
+void GetSeagallopSelection(void)
+{
+    if (gSpecialVar_Result != SCR_MENU_CANCEL)
+    {
+        gSpecialVar_Result = sSeagallopSelections[gSpecialVar_Result];
+    }
 }

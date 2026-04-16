@@ -59,7 +59,7 @@ FiveIsland_MemorialPillar_EventScript_PlaceLemonade::
 	waitmovement 0
 	textcolor NPC_TEXT_COLOR_MALE
 	msgbox FiveIsland_MemorialPillar_Text_ThankYouPleaseTakeThis
-	giveitem ITEM_TM42
+	giveitem ITEM_BERRY_PUNCH
 	goto_if_eq VAR_RESULT, FALSE, FiveIsland_MemorialPillar_EventScript_NoRoomForTM42
 	call FiveIsland_MemorialPillar_EventScript_ReceivedTM42
 	releaseall

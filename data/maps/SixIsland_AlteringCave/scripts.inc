@@ -1,7 +1,16 @@
 SixIsland_AlteringCave_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, SixIsland_AlteringCave_OnTransition
+	map_script MAP_SCRIPT_ON_LOAD, SixIsland_AlteringCave_EventScript_CheckLadder
 	.byte 0
 
 SixIsland_AlteringCave_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_SIX_ISLAND_ALTERING_CAVE
 	end
+
+SixIsland_AlteringCave_EventScript_CheckLadder::
+	call_if_set FLAG_ALTERING_CAVE_SECRET_TRIGGERED, SixIsland_AlteringCave_EventScript_SetLadder
+	end
+
+SixIsland_AlteringCave_EventScript_SetLadder::
+	setmetatile 26, 11, METATILE_RockTunnel_CaveLadder, 0
+	return

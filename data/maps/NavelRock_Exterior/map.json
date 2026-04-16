@@ -20,8 +20,8 @@
       "x": 9,
       "y": 8,
       "elevation": 3,
-      "dest_map": "MAP_NAVEL_ROCK_1F",
-      "dest_warp_id": "1"
+      "dest_map": "MAP_DYNAMIC",
+      "dest_warp_id": "WARP_ID_DYNAMIC"
     },
     {
       "x": 9,
@@ -31,6 +31,61 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 11,
+      "elevation": 0,
+      "var": "VAR_NAVEL_ROCK_PROGRESS",
+      "var_value": "0",
+      "script": "NavelRock_Exterior_CheckHoohLugia"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 11,
+      "elevation": 0,
+      "var": "VAR_NAVEL_ROCK_PROGRESS",
+      "var_value": "0",
+      "script": "NavelRock_Exterior_CheckHoohLugia"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 11,
+      "elevation": 0,
+      "var": "VAR_NAVEL_ROCK_PROGRESS",
+      "var_value": "0",
+      "script": "NavelRock_Exterior_CheckHoohLugia"
+    },
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 14,
+      "elevation": 0,
+      "var": "VAR_NAVEL_ROCK_PROGRESS",
+      "var_value": "2",
+      "script": "NavelRock_Exterior_Revert"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 14,
+      "elevation": 0,
+      "var": "VAR_NAVEL_ROCK_PROGRESS",
+      "var_value": "2",
+      "script": "NavelRock_Exterior_Revert"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 14,
+      "elevation": 0,
+      "var": "VAR_NAVEL_ROCK_PROGRESS",
+      "var_value": "2",
+      "script": "NavelRock_Exterior_Revert"
+    }
+  ],
   "bg_events": []
 }

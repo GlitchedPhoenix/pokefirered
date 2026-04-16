@@ -1575,6 +1575,13 @@
 	.byte \statId
 	.4byte \value
 	.endm
+	
+	@ Equivalent to fadescreen but copies gPlttBufferUnfaded to gPaletteDecompressionBuffer on the fade out
+	@ and the reverse on the fade in, in effect saving gPlttBufferUnfaded to restore it.
+	.macro fadescreenswapbuffers mode:req
+	.byte 0xdc
+	.byte \mode
+	.endm
 
 	@ Sets the modernFatefulEncounter bit for the Pokemon in the specified slot of the player's party.
 	.macro setmonmodernfatefulencounter slot:req
@@ -1630,6 +1637,14 @@
 	.byte 0xd4
 	stringvar \stringVarId
 	.2byte \item
+	.2byte \quantity
+	.endm
+
+	@ Checks if the player has enough space in their PC to hold quantity more of the specified item. Sets VAR_RESULT to
+	@ TRUE if there is room, or FALSE is there is no room.
+	.macro checkpcspace itemId:req, quantity=1
+	.byte 0xd5
+	.2byte \itemId
 	.2byte \quantity
 	.endm
 

@@ -55,6 +55,9 @@ const u32 gTrainerPalette_Guitarist[] = INCBIN_U32("graphics/trainers/palettes/g
 const u32 gTrainerFrontPic_Kindler[] = INCBIN_U32("graphics/trainers/front_pics/kindler_front_pic.4bpp.lz");
 const u32 gTrainerPalette_Kindler[] = INCBIN_U32("graphics/trainers/palettes/kindler.gbapal.lz");
 
+const u32 gTrainerFrontPic_FortuneTeller[] = INCBIN_U32("graphics/trainers/front_pics/fortune_teller.4bpp.lz");
+const u32 gTrainerPalette_FortuneTeller[] = INCBIN_U32("graphics/trainers/front_pics/fortune_teller.gbapal.lz");
+
 const u32 gTrainerFrontPic_RSCamper[] = INCBIN_U32("graphics/trainers/front_pics/rs_camper_front_pic.4bpp.lz");
 const u32 gTrainerPalette_RSCamper[] = INCBIN_U32("graphics/trainers/palettes/rs_camper.gbapal.lz");
 

@@ -1,0 +1,87 @@
+{
+  "id": "MAP_SIX_ISLAND_ALTERING_CAVE_SECRET",
+  "name": "SixIsland_AlteringCave_Secret",
+  "layout": "LAYOUT_SIX_ISLAND_ALTERING_CAVE_SECRET",
+  "music": "MUS_SEVII_CAVE",
+  "region_map_section": "MAPSEC_ALTERING_CAVE",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": false,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "local_id": "LOCALID_GIOVANNI",
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_GIOVANNI",
+      "x": 8,
+      "y": 6,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_HIDE_ALTERING_CAVE_GIOVANNI"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 11,
+      "y": 2,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "SixIsland_AlteringCave_Secret_EventScript_AuroraTicket",
+      "flag": "FLAG_HIDE_AURORA_TICKET"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 8,
+      "y": 12,
+      "elevation": 0,
+      "dest_map": "MAP_SIX_ISLAND_ALTERING_CAVE",
+      "dest_warp_id": "1"
+    }
+  ],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_GIOVANNI_ALTERING_CAVE",
+      "var_value": "0",
+      "script": "SixIsland_AlteringCave_Secret_EventScript_TriggerGiovanniLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_GIOVANNI_ALTERING_CAVE",
+      "var_value": "0",
+      "script": "SixIsland_AlteringCave_Secret_EventScript_TriggerGiovanni"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_GIOVANNI_ALTERING_CAVE",
+      "var_value": "0",
+      "script": "SixIsland_AlteringCave_Secret_EventScript_TriggerGiovanniRight"
+    }
+  ],
+  "bg_events": []
+}

@@ -313,17 +313,17 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_TryGivePrize::
 	bufferitemname STR_VAR_1, VAR_TEMP_1
 	checkcoins VAR_RESULT
 	goto_if_lt VAR_RESULT, VAR_TEMP_2, CeladonCity_GameCorner_PrizeRoom_EventScript_NotEnoughCoins
-	checkitemspace VAR_TEMP_1
-	goto_if_eq VAR_RESULT, FALSE, CeladonCity_GameCorner_PrizeRoom_EventScript_BagFull
+	checkitem VAR_TEMP_1
+	goto_if_eq VAR_RESULT, TRUE, CeladonCity_GameCorner_PrizeRoom_EventScript_YouAlreadyHaveThis
 	removecoins VAR_TEMP_2
 	updatecoinsbox 0, 5
 	giveitem VAR_TEMP_1
 	goto CeladonCity_GameCorner_PrizeRoom_EventScript_EndPrizeExchange
 	end
 
-CeladonCity_GameCorner_PrizeRoom_EventScript_BagFull::
+CeladonCity_GameCorner_PrizeRoom_EventScript_YouAlreadyHaveThis::
 	textcolor NPC_TEXT_COLOR_NEUTRAL
-	msgbox Text_TooBadBagFull
+	msgbox gText_YouAlreadyHaveThis
 	hidecoinsbox 0, 0
 	release
 	end

@@ -33,7 +33,7 @@
       "trainer_type": "TRAINER_TYPE_NORMAL",
       "trainer_sight_or_berry_tree_id": "1",
       "script": "SixIsland_OutcastIsland_EventScript_Rocket",
-      "flag": "FLAG_HIDE_FIVE_ISLAND_ROCKETS"
+      "flag": "FLAG_HIDE_OUTCAST_ROCKET"
     },
     {
       "type": "object",

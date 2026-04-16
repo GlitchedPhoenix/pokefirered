@@ -25,6 +25,7 @@ SevenIsland_SevaultCanyon_TanobyKey_EventScript_MoveBouldersToSolvedPos::
 	setobjectxyperm LOCALID_TANOBY_KEY_BOULDER5, 9, 6
 	setobjectxyperm LOCALID_TANOBY_KEY_BOULDER6, 5, 8
 	setobjectxyperm LOCALID_TANOBY_KEY_BOULDER7, 9, 8
+	setmetatile 7, 7, METATILE_DiglettsCave_TanobyFall, 0
 	return
 
 SevenIsland_SevaultCanyon_TanobyKey_EventScript_Switch1::
@@ -115,6 +116,9 @@ SevenIsland_SevaultCanyon_TanobyKey_EventScript_PuzzleSolvedShakeScreen::
 	special ShakeScreen
 	delay 60
 	playse SE_LAVARIDGE_FALL_WARP
+	waitse
+	setmetatile 7, 7, METATILE_DiglettsCave_TanobyFall, 0
+	playse SE_BANG
 	waitse
 	return
 

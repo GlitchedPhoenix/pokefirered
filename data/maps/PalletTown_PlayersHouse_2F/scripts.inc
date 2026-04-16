@@ -43,6 +43,17 @@ PalletTown_PlayersHouse_2F_EventScript_PC::
 	releaseall
 	end
 
+NewItemTest::
+	lockall
+	giveitem ITEM_BERRY_PUNCH, 1
+	giveitem ITEM_TORN_SCRAP_1, 1
+	giveitem ITEM_TORN_SCRAP_2, 1
+	giveitem ITEM_TORN_SCRAP_3, 1
+	giveitem ITEM_NEW_SEA_MAP, 1
+	giveitem ITEM_RIPPED_PAGE, 1
+	releaseall
+	end
+
 EventScript_PalletTown_PlayersHouse_2F_ShutDownPC::
 	setvar VAR_0x8004, 1
 	playse SE_PC_OFF

@@ -136,6 +136,8 @@ PalletTown_RivalsHouse_EventScript_GiveTownMap::
 	applymovement LOCALID_DAISY, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	removeobject LOCALID_TOWN_MAP
+	setflag FLAG_HIDE_TOWN_MAP
+	setflag FLAG_HIDE_TOWN_MAP_CONVENIENCE
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2
 	delay 15
 	applymovement LOCALID_DAISY, Common_Movement_FacePlayer

@@ -15,6 +15,44 @@ RocketHideout_B4F_EventScript_CountGruntDefeated::
 	addvar NUM_DOOR_GRUNTS_DEFEATED, 1
 	return
 
+RocketHideout_B4F_EventScript_Laptop::
+	lock
+	goto_if_set FLAG_HIDE_FIVE_ISLAND_ROCKETS, RocketHideout_B4F_EventScript_FindCipher
+	msgbox RocketHideout_B4F_Text_TooDifficultToUnderstand
+	release
+	end
+
+RocketHideout_B4F_EventScript_FindCipher::
+	call_if_unset FLAG_FOUND_CIPHER, RocketHideout_B4F_EventScript_LookForCipher
+	textcolor 1
+	msgbox RocketHideout_B4F_Text_RocketCipher, MSGBOX_SIGN
+	release
+	end
+
+RocketHideout_B4F_EventScript_LookForCipher::
+	msgbox RocketHideout_B4F_Text_HereItIs
+	setflag FLAG_FOUND_CIPHER
+	return
+
+RocketHideout_B4F_Text_TooDifficultToUnderstand::
+	.string "It's a laptop. It's full of odd\n"
+	.string "graphs and blueprints you can't\l"
+	.string "understand.$"
+
+RocketHideout_B4F_Text_HereItIs::
+	.string "It's a laptop.\n"
+	.string "Let's see here...\p"
+	.string "...\p"
+	.string "After some searching, you find\n"
+	.string "a tucked away file.$"
+
+RocketHideout_B4F_Text_RocketCipher::
+	.string "‘ROCKET CIPHER\p"
+	.string "Take the first and last letters\n"
+	.string "of each word. Ignore colors.\p"
+	.string "Swap the first and last letters\n"
+	.string "on POKéMON names.'$"
+
 RocketHideout_B4F_EventScript_Giovanni::
 	lock
 	faceplayer
@@ -31,6 +69,7 @@ RocketHideout_B4F_EventScript_Giovanni::
 	addobject LOCALID_SILPH_SCOPE
 	clearflag FLAG_HIDE_SILPH_SCOPE
 	setflag FLAG_HIDE_CELADON_ROCKETS
+	removeitem ITEM_LIFT_KEY
 	famechecker FAMECHECKER_GIOVANNI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	fadescreen FADE_FROM_BLACK
 	release

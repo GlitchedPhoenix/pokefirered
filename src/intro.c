@@ -6,9 +6,12 @@
 #include "libgcnmultiboot.h"
 #include "new_menu_helpers.h"
 #include "link.h"
+#include "reset_save_heap.h"
+#include "main_menu.h"
 #include "menu.h"
 #include "random.h"
 #include "save.h"
+#include "overworld.h"
 #include "new_game.h"
 #include "title_screen.h"
 #include "decompress.h"
@@ -922,12 +925,7 @@ static bool8 SetUpCopyrightScreen(void)
         SetGpuReg(REG_OFFSET_BLDCNT, 0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
         SetGpuReg(REG_OFFSET_BLDY, 0);
-// "Fade from white" instead is just pure black in Revision 10.
-#if REVISION >= 0xA
-        ((vu16*)PLTT)[0] = RGB_BLACK;
-#else
         ((vu16*)PLTT)[0] = RGB_WHITE;
-#endif
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
         SetGpuReg(REG_OFFSET_BG0HOFS, 0);
         SetGpuReg(REG_OFFSET_BG0VOFS, 0);
@@ -940,11 +938,7 @@ static bool8 SetUpCopyrightScreen(void)
         ResetTasks();
         ResetSpriteData();
         FreeAllSpritePalettes();
-#if REVISION >= 0xA
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
-#else
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_WHITEALPHA);
-#endif
         SetGpuReg(REG_OFFSET_BG0CNT, BGCNT_PRIORITY(0) | BGCNT_CHARBASE(0) | BGCNT_16COLOR | BGCNT_SCREENBASE(7));
         EnableInterrupts(INTR_FLAG_VBLANK);
         SetVBlankCallback(VBlankCB_Copyright);
@@ -999,14 +993,21 @@ static bool8 SetUpCopyrightScreen(void)
 
 void CB2_InitCopyrightScreenAfterBootup(void)
 {
-    if (!SetUpCopyrightScreen())
-    {
-        ResetMenuAndMonGlobals();
+	if (!gMain.state)
+	{
+		ResetMenuAndMonGlobals();
         Save_ResetSaveCounters();
         LoadGameSave(SAVE_NORMAL);
         if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_INVALID)
             Sav2_ClearSetDefault();
         SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
+	}
+    if (!SetUpCopyrightScreen())
+    {
+		SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
+        InitHeap(gHeap, HEAP_SIZE);
+		if (!(gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_INVALID) && (gSaveBlock2Ptr->quickContinue == 1))
+			SetMainCallback2(CB2_InitMainMenu);
     }
 }
 

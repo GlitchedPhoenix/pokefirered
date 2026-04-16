@@ -101,6 +101,29 @@ VermilionCity_Text_OhAuroraTicketTakeYouToBirthIsland::
     .string "We'll be happy to take you to\n"
     .string "BIRTH ISLAND anytime.$"
 
+VermilionCity_Text_OhEonTicketTakeYouToSouthernIsland::
+    .string "Huh? What kinda ticket is this?\n"
+	.string "Looks like this goes to a wee\l"
+	.string "island just off the coast\l"
+	.string "of HOENN.\p"
+	.string "Where'd ya find it?\p"
+	.string "Eh, it doesn't matter. Just let\n"
+	.string "us know if you'd like to set\l"
+	.string "sail out there.$"
+
+VermilionCity_Text_MultipleTickets::
+	.string "Oh! You've got a few rare tickets\n"
+	.string "on you!\p"
+	.string "Well, just say the word and we'll\n"
+	.string "take ya wherever they lead.$"
+
+VermilionCity_Text_ShowNewSeaMap::
+	.string "Eh? Whaddya got here?\n"
+	.string "A map?\p"
+	.string "Odd. I ain't ever seen this island\n"
+	.string "on any map I've ever seen.\p"
+	.string "Well, let's give it a shot, then!$"
+
 VermilionCity_Text_BoardSeagallopFerry::
     .string "Would you like to board\n"
     .string "a SEAGALLOP ferry?$"
@@ -115,6 +138,18 @@ VermilionCity_Text_Seagallop12Departing::
     .string "Okay, everything's in order for you\n"
     .string "to board a special ferry.\p"
     .string "SEAGALLOP HI-SPEED 12 will be\n"
+    .string "departing immediately.$"
+
+VermilionCity_Text_Seagallop15Departing::
+    .string "Okay, everything's in order for you\n"
+    .string "to board a special ferry.\p"
+    .string "SEAGALLOP HI-SPEED 15 will be\n"
+    .string "departing immediately.$"
+
+VermilionCity_Text_Seagallop20Departing::
+    .string "Okay, everything's in order for you\n"
+    .string "to board a special ferry.\p"
+    .string "SEAGALLOP HI-SPEED 20 will be\n"
     .string "departing immediately.$"
 
 VermilionCity_Text_Route2AideHasPackageForYou::

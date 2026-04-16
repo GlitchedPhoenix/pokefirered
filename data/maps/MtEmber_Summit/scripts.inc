@@ -14,10 +14,16 @@ MtEmber_Summit_EventScript_TryRemoveMoltres::
 	return
 
 MtEmber_Summit_OnTransition::
+	call_if_set FLAG_FOUGHT_MOLTRES, MtEmber_Summit_EventScript_HideMoltres
 	call_if_unset FLAG_FOUGHT_MOLTRES, MtEmber_Summit_EventScript_ShowMoltres
 	end
 
+MtEmber_Summit_EventScript_HideMoltres::
+	setflag FLAG_HIDE_MOLTRES
+	return
+
 MtEmber_Summit_EventScript_ShowMoltres::
+	goto_if_set FLAG_MOLTRES_RAN, EventScript_Return
 	clearflag FLAG_HIDE_MOLTRES
 	return
 
@@ -48,7 +54,7 @@ MtEmber_Summit_EventScript_Moltres::
 	end
 
 MtEmber_Summit_EventScript_DefeatedMoltres::
-	setflag FLAG_FOUGHT_MOLTRES
+	setflag FLAG_MOLTRES_RAN
 	goto EventScript_RemoveStaticMon
 	end
 

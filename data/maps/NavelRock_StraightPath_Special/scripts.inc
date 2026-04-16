@@ -1,0 +1,66 @@
+NavelRock_StraightPath_Special_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, NavelRock_StraightPath_Special_OnTransition
+	map_script MAP_SCRIPT_ON_RESUME, NavelRock_StraightPath_Special_OnResume
+	.byte 0
+
+NavelRock_StraightPath_Special_OnTransition::
+	call_if_set FLAG_FOUGHT_SUICUNE, NavelRock_StraightPath_Special_EventScript_HideSuicune
+	call_if_unset FLAG_FOUGHT_SUICUNE, NavelRock_StraightPath_Special_EventScript_TryShowSuicune
+	end
+
+NavelRock_StraightPath_Special_EventScript_HideSuicune::
+	setflag FLAG_HIDE_SUICUNE
+	return
+
+NavelRock_StraightPath_Special_EventScript_TryShowSuicune::
+	goto_if_set FLAG_SUICUNE_RAN_AWAY, EventScript_Return
+	clearflag FLAG_HIDE_SUICUNE
+	return
+
+NavelRock_StraightPath_Special_OnResume::
+	call_if_set FLAG_SYS_SPECIAL_WILD_BATTLE, NavelRock_StraightPath_Special_EventScript_TryRemoveSuicune
+	end
+
+NavelRock_StraightPath_Special_EventScript_TryRemoveSuicune::
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_CAUGHT, EventScript_Return
+	removeobject LOCALID_SUICUNE
+	return
+
+NavelRock_StraightPath_Special_EventScript_Suicune::
+	goto_if_questlog EventScript_ReleaseEnd
+	special QuestLog_CutRecording
+	lock
+	fadescreen FADE_TO_WHITE
+	playse SE_SHINY
+	waitse
+	fadescreen FADE_FROM_WHITE
+	delay 20
+	playmoncry SPECIES_SUICUNE, CRY_MODE_ENCOUNTER
+	waitmoncry
+	delay 20
+	seteventmon SPECIES_SUICUNE, 70
+	setflag FLAG_SYS_SPECIAL_WILD_BATTLE
+	special StartLegendaryBattle
+	waitstate
+	clearflag FLAG_SYS_SPECIAL_WILD_BATTLE
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, NavelRock_StraightPath_Special_EventScript_DefeatedSuicune
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NavelRock_StraightPath_Special_EventScript_RanFromSuicune
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, NavelRock_StraightPath_Special_EventScript_RanFromSuicune
+	setflag FLAG_FOUGHT_SUICUNE
+	setvar VAR_NAVEL_ROCK_PROGRESS, 2
+	release
+	end
+
+NavelRock_StraightPath_Special_EventScript_DefeatedSuicune::
+	setflag FLAG_SUICUNE_RAN_AWAY
+	setvar VAR_0x8004, SPECIES_SUICUNE
+	setvar VAR_NAVEL_ROCK_PROGRESS, 2
+	goto EventScript_MonRanAway
+	end
+
+NavelRock_StraightPath_Special_EventScript_RanFromSuicune::
+	setvar VAR_0x8004, SPECIES_SUICUNE
+	goto EventScript_MonRanAway
+	end

@@ -1438,15 +1438,14 @@ Help_Text_DefineTM::
 	.string "used to teach a move to a POKéMON.\l"
 	.string "There are many different kinds.\l"
 	.string "Moves can be taught only to those\l"
-	.string "POKéMON capable of using them.\l"
-	.string "A TM breaks after a single use.$"
+	.string "POKéMON capable of using them.$"
 
 Help_Text_DefineHM::
 	.string "An HM (Hidden Machine) is a device used\n"
 	.string "to teach a HIDDEN move to a POKéMON.\l"
 	.string "A HIDDEN move can be taught only to\l"
 	.string "those POKéMON capable of using it.\l"
-	.string "Unlike a TM, an HM can be used over\l"
+	.string "Like a TM, an HM can be used over\l"
 	.string "and over. A HIDDEN move can be tough\l"
 	.string "for a POKéMON to forget.$"
 

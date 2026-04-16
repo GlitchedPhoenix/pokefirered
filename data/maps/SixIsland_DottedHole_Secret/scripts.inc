@@ -1,0 +1,34 @@
+SixIsland_DottedHole_Secret_MapScripts::
+	.byte 0
+
+SixIsland_DottedHole_Secret_TornScrap3::
+	lock
+	setflag FLAG_HIDE_TORN_SCRAP_3
+	removeobject 1
+	giveitem ITEM_TORN_SCRAP_3, 1
+	release
+	end
+	
+SixIsland_DottedHole_Secret_BrailleMessage::
+	lockall
+	setvar VAR_0x8005, 130
+	braillemessage_wait Braille_Text_UniteThem
+	braillemessage_wait Braille_Text_ThreeParts
+	braillemessage_wait Braille_Text_Once
+	braillemessage_wait Braille_Text_WhereThe
+	braillemessage_wait Braille_Text_PhoenixHad
+	braillemessage_wait Braille_Text_Roosted
+	braillemessage_wait Braille_Text_Twice
+	braillemessage_wait Braille_Text_WhereThe
+	braillemessage_wait Braille_Text_IceFell
+	braillemessage_wait Braille_Text_Thrice
+	braillemessage_wait Braille_Text_WhereThe
+	braillemessage_wait Braille_Text_DottedLine
+	braillemessage_wait Braille_Text_LedAstray
+	braillemessage_wait Braille_Text_ThenGo
+	braillemessage_wait Braille_Text_ToRed
+	braillemessage_wait Braille_Text_AndBlue
+	braillemessage Braille_Text_UniteThem
+	waitbuttonpress
+	releaseall
+	end

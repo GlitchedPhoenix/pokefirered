@@ -114,6 +114,8 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene::
 	applymovement LOCALID_CELIO, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	setflag FLAG_SYS_PC_STORAGE_DISABLED
+	setflag FLAG_HIDE_FUCHSIA_FT
+	clearflag FLAG_HIDE_TWOISLAND_FT
 	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1
 	releaseall
 	end
@@ -137,6 +139,7 @@ OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMapPage::
 
 OneIsland_PokemonCenter_1F_EventScript_ReceiveTownMap::
 	setflag FLAG_HIDE_TOWN_MAP
+	setflag FLAG_HIDE_TOWN_MAP_CONVENIENCE
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2
 	giveitem_msg OneIsland_PokemonCenter_1F_Text_ReceivedTownMap, ITEM_TOWN_MAP, 1, MUS_OBTAIN_KEY_ITEM
 	return
@@ -195,9 +198,171 @@ OneIsland_PokemonCenter_1F_EventScript_BillGoTakeStroll::
 	release
 	end
 
+EventScript_TornScrapCheck1::
+	goto_if_lt VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 3, OneIsland_PokemonCenter_1F_EventScript_Celio2
+	goto_if_set FLAG_ENABLE_SHIP_NAVEL_ROCK, OneIsland_PokemonCenter_1F_EventScript_Celio2
+	checkitem ITEM_TORN_SCRAP_1
+	goto_if_eq VAR_RESULT, TRUE, EventScript_TornScrapCheck2
+	checkitem ITEM_TORN_SCRAP_2
+	goto_if_eq VAR_RESULT, TRUE, EventScript_TornScrapFail_Check
+	checkitem ITEM_TORN_SCRAP_3
+	goto_if_eq VAR_RESULT, TRUE, EventScript_TornScrapFail_OneScrap
+	goto OneIsland_PokemonCenter_1F_EventScript_Celio2
+	end
+
+EventScript_TornScrapCheck2::
+	checkitem ITEM_TORN_SCRAP_2
+	goto_if_eq VAR_RESULT, TRUE, EventScript_TornScrapCheck3
+	checkitem ITEM_TORN_SCRAP_3
+	goto_if_eq VAR_RESULT, TRUE, EventScript_TornScrapFail_TwoScrap
+	goto EventScript_TornScrapFail_OneScrap
+	end
+
+EventScript_TornScrapCheck3::
+	checkitem ITEM_TORN_SCRAP_3
+	goto_if_eq VAR_RESULT, TRUE, EventScript_TornScrapSuccess
+	goto EventScript_TornScrapFail_TwoScrap
+	end
+
+EventScript_TornScrapFail_Check::
+	checkitem ITEM_TORN_SCRAP_3
+	goto_if_eq VAR_RESULT, TRUE, EventScript_TornScrapFail_TwoScrap
+	goto EventScript_TornScrapFail_OneScrap
+	end
+
+EventScript_TornScrapSuccess::
+	setvar VAR_TORN_SCRAP_PROGRESS, 3
+	setflag FLAG_TORN_SCRAP_SHOWN
+	goto OneIsland_PokemonCenter_1F_EventScript_Celio2
+	end
+
+EventScript_TornScrapFail_OneScrap::
+	goto_if_set FLAG_TORN_SCRAP_SEEN, OneIsland_PokemonCenter_1F_EventScript_Celio2
+	setvar VAR_TORN_SCRAP_PROGRESS, 1
+	setflag FLAG_TORN_SCRAP_SHOWN
+	goto OneIsland_PokemonCenter_1F_EventScript_Celio2
+	end
+
+EventScript_TornScrapFail_TwoScrap::
+	goto_if_set FLAG_TORN_SCRAP_SEEN_2, OneIsland_PokemonCenter_1F_EventScript_Celio2
+	setvar VAR_TORN_SCRAP_PROGRESS, 2
+	setflag FLAG_TORN_SCRAP_SHOWN
+	goto OneIsland_PokemonCenter_1F_EventScript_Celio2
+	end
+
+EventScript_HandleTornScrap::
+	clearflag FLAG_TORN_SCRAP_SHOWN
+	goto_if_eq VAR_TORN_SCRAP_PROGRESS, 3, EventScript_HandleTornScrap_3Scraps
+	goto_if_eq VAR_TORN_SCRAP_PROGRESS, 2, EventScript_HandleTornScrap_2Scraps
+	goto_if_eq VAR_TORN_SCRAP_PROGRESS, 1, EventScript_HandleTornScrap_1Scrap
+	release
+	end
+
+EventScript_HandleTornScrap_1Scrap::
+	msgbox TornScrap_Text_ThatScrapofPaper
+	closemessage
+	applymovement LOCALID_CELIO, Common_Movement_ExclamationMark
+	waitmovement 0
+	msgbox TornScrap_Text_TicketSingular
+	msgbox TornScrap_Text_RestrictedIsland
+	msgbox TornScrap_Text_NoPartial
+	setflag FLAG_TORN_SCRAP_SEEN
+	release
+	end
+
+EventScript_HandleTornScrap_2Scraps::
+	goto_if_set FLAG_TORN_SCRAP_SEEN, EventScript_HandleTornScrap_2ScrapsSeen
+	msgbox TornScrap_Text_ThoseScrapsofPaper
+	closemessage
+	applymovement LOCALID_CELIO, Common_Movement_ExclamationMark
+	waitmovement 0
+	msgbox TornScrap_Text_TicketPlural
+	msgbox TornScrap_Text_RestrictedIsland
+	msgbox TornScrap_Text_NoPartial
+	setflag FLAG_TORN_SCRAP_SEEN
+	setflag FLAG_TORN_SCRAP_SEEN_2
+	release
+	end
+
+EventScript_HandleTornScrap_2ScrapsSeen::
+	msgbox TornScrap_Text_AnotherPiece
+	setflag FLAG_TORN_SCRAP_SEEN_2
+	release
+	end
+
+EventScript_HandleTornScrap_3Scraps::
+	goto_if_set FLAG_TORN_SCRAP_SEEN_2, EventScript_HandleTornScrap_3ScrapsSeen2
+	goto_if_set FLAG_TORN_SCRAP_SEEN, EventScript_HandleTornScrap_3ScrapsSeen1
+	msgbox TornScrap_Text_ThoseScrapsofPaper
+	closemessage
+	playse SE_PIN
+	applymovement LOCALID_CELIO, Common_Movement_ExclamationMark
+	waitmovement 0
+	applymovement LOCALID_CELIO, Common_Movement_Delay48
+	waitmovement 0
+	msgbox TornScrap_Text_TicketPlural
+	msgbox TornScrap_Text_RestrictedIsland
+	msgbox TornScrap_Text_AllPieces
+	closemessage
+	setflag FLAG_TORN_SCRAP_SEEN
+	setflag FLAG_TORN_SCRAP_SEEN_2
+	goto EventScript_HandleTornScrap_GiveTicket
+	end
+
+EventScript_HandleTornScrap_3ScrapsSeen1::
+	msgbox TornScrap_Text_OtherPieces
+	closemessage
+	setflag FLAG_TORN_SCRAP_SEEN_2
+	goto EventScript_HandleTornScrap_GiveTicket
+	end
+
+EventScript_HandleTornScrap_3ScrapsSeen2::
+	msgbox TornScrap_Text_LastPiece
+	closemessage
+	goto EventScript_HandleTornScrap_GiveTicket
+	end
+
+TornScrap_Movement_CelioTape::
+	walk_in_place_up
+	walk_in_place_up
+	walk_in_place_up
+	step_end
+	
+
+EventScript_HandleTornScrap_GiveTicket::
+	applymovement LOCALID_CELIO, Common_Movement_FaceUp
+	waitmovement 0
+	playse SE_DOOR
+	applymovement LOCALID_CELIO, Common_Movement_Delay48
+	waitmovement 0
+	applymovement LOCALID_CELIO, TornScrap_Movement_CelioTape
+	waitmovement 0
+	playse SE_CLICK
+	applymovement LOCALID_CELIO, Common_Movement_Delay48
+	waitmovement 0
+	applymovement LOCALID_CELIO, TornScrap_Movement_CelioTape
+	waitmovement 0
+	playse SE_CLICK
+	applymovement LOCALID_CELIO, Common_Movement_Delay48
+	waitmovement 0
+	applymovement LOCALID_CELIO, Common_Movement_FacePlayer
+	waitmovement 0
+	removeitem ITEM_TORN_SCRAP_1
+	removeitem ITEM_TORN_SCRAP_2
+	removeitem ITEM_TORN_SCRAP_3
+	giveitem_msg TornScrap_Text_ReceivedTicket, ITEM_MYSTIC_TICKET, 1, MUS_OBTAIN_KEY_ITEM
+	msgbox TornScrap_Text_ThereYouGo
+	setflag FLAG_ENABLE_SHIP_NAVEL_ROCK
+	release
+	end
+
 OneIsland_PokemonCenter_1F_EventScript_Celio::
 	lock
 	faceplayer
+	goto EventScript_TornScrapCheck1
+	end
+
+OneIsland_PokemonCenter_1F_EventScript_Celio2::
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 7, OneIsland_PokemonCenter_1F_EventScript_CelioGiveBillFact
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 6, OneIsland_PokemonCenter_1F_EventScript_CelioJustGivenSapphire
 	goto_if_set FLAG_RECOVERED_SAPPHIRE, OneIsland_PokemonCenter_1F_EventScript_GiveCelioSapphire
@@ -208,6 +373,7 @@ OneIsland_PokemonCenter_1F_EventScript_Celio::
 	goto_if_eq VAR_RESULT, TRUE, OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby
 	goto_if_eq VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 3, OneIsland_PokemonCenter_1F_EventScript_CelioPlayerMissingNationalDex
 	msgbox OneIsland_PokemonCenter_1F_Text_SorryForBeingPoorHost
+	goto_if_set FLAG_TORN_SCRAP_SHOWN, EventScript_HandleTornScrap
 	closemessage
 	applymovement LOCALID_CELIO, Common_Movement_FaceOriginalDirection
 	waitmovement 0
@@ -221,23 +387,27 @@ OneIsland_PokemonCenter_1F_EventScript_CelioGiveBillFact::
 	goto_if_eq VAR_RESULT, 1, OneIsland_PokemonCenter_1F_EventScript_BillFact2
 	famechecker FAMECHECKER_BILL, 5
 	msgbox OneIsland_PokemonCenter_1F_Text_BillCantStomachMilk
+	goto_if_set FLAG_TORN_SCRAP_SHOWN, EventScript_HandleTornScrap
 	release
 	end
 
 OneIsland_PokemonCenter_1F_EventScript_BillFact1::
 	famechecker FAMECHECKER_BILL, 3
 	msgbox OneIsland_PokemonCenter_1F_Text_BillsFirstMonWasAbra
+	goto_if_set FLAG_TORN_SCRAP_SHOWN, EventScript_HandleTornScrap
 	release
 	end
 
 OneIsland_PokemonCenter_1F_EventScript_BillFact2::
 	famechecker FAMECHECKER_BILL, 4
 	msgbox OneIsland_PokemonCenter_1F_Text_BillsHometownInGoldenrod
+	goto_if_set FLAG_TORN_SCRAP_SHOWN, EventScript_HandleTornScrap
 	release
 	end
 
 OneIsland_PokemonCenter_1F_EventScript_CelioJustGivenSapphire::
 	msgbox OneIsland_PokemonCenter_1F_Text_WishYouBestOfLuck
+	goto_if_set FLAG_TORN_SCRAP_SHOWN, EventScript_HandleTornScrap
 	release
 	end
 
@@ -276,6 +446,7 @@ OneIsland_PokemonCenter_1F_EventScript_GiveCelioSapphire::
 	setflag FLAG_SYS_CAN_LINK_WITH_RS
 	setflag FLAG_HIDE_CERULEAN_CAVE_GUARD
 	setflag FLAG_HIDE_LORELEI_IN_HER_HOUSE
+	setflag FLAG_ROAMER_ENABLED
 	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 6
 	special InitRoamer
 	release
@@ -283,6 +454,7 @@ OneIsland_PokemonCenter_1F_EventScript_GiveCelioSapphire::
 
 OneIsland_PokemonCenter_1F_EventScript_ExplainRainbowPass::
 	msgbox OneIsland_PokemonCenter_1F_Text_PassLetYouGetToAllIslands
+	goto_if_set FLAG_TORN_SCRAP_SHOWN, EventScript_HandleTornScrap
 	release
 	end
 
@@ -336,6 +508,7 @@ OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass::
 
 OneIsland_PokemonCenter_1F_EventScript_CelioWaitingForRuby::
 	msgbox OneIsland_PokemonCenter_1F_Text_TryingToFindGem
+	goto_if_set FLAG_TORN_SCRAP_SHOWN, EventScript_HandleTornScrap
 	release
 	end
 
@@ -354,6 +527,7 @@ OneIsland_PokemonCenter_1F_EventScript_CelioRequestRuby::
 
 OneIsland_PokemonCenter_1F_EventScript_CelioPlayerMissingNationalDex::
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioImModifyingMyNetworkMachine
+	goto_if_set FLAG_TORN_SCRAP_SHOWN, EventScript_HandleTornScrap
 	release
 	end
 
@@ -379,15 +553,15 @@ OneIsland_PokemonCenter_1F_EventScript_Hiker::
 	msgbox OneIsland_PokemonCenter_1F_Text_EnormousVolcanoOnIsland, MSGBOX_NPC
 	end
 
-OneIsland_PokemonCenter_1F_EventScript_CrushGirl::
+OneIsland_PokemonCenter_1F_EventScript_BattleGirl::
 	lock
 	faceplayer
-	goto_if_set FLAG_SYS_CAN_LINK_WITH_RS, OneIsland_PokemonCenter_1F_EventScript_CrushGirlHoennLinked
+	goto_if_set FLAG_SYS_CAN_LINK_WITH_RS, OneIsland_PokemonCenter_1F_EventScript_BattleGirlHoennLinked
 	msgbox OneIsland_PokemonCenter_1F_Text_WishICouldTradeWithBoyfriend
 	release
 	end
 
-OneIsland_PokemonCenter_1F_EventScript_CrushGirlHoennLinked::
+OneIsland_PokemonCenter_1F_EventScript_BattleGirlHoennLinked::
 	msgbox OneIsland_PokemonCenter_1F_Text_TradedWithFarAwayBoyfriend
 	release
 	end

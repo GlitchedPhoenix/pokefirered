@@ -578,27 +578,30 @@ static const struct OamData sOamData_Emoticons = {
     .affineParam = 0,
 };
 
-static const struct SpriteFrameImage sSpriteImages_Emoticons[] =
-{
-    overworld_frame(sGfx_Emoticons, 2, 2, 0),
-    overworld_frame(sGfx_Emoticons, 2, 2, 1),
-    overworld_frame(sGfx_Emoticons, 2, 2, 2),
+static const struct SpriteFrameImage sSpriteImages_Emoticons[] = {
+    {sGfx_Emoticons + 0x000, 0x80},
+    {sGfx_Emoticons + 0x040, 0x80},
+    {sGfx_Emoticons + 0x080, 0x80},
 
-    overworld_frame(sGfx_Emoticons, 2, 2, 6),
-    overworld_frame(sGfx_Emoticons, 2, 2, 7),
-    overworld_frame(sGfx_Emoticons, 2, 2, 8),
+    {sGfx_Emoticons + 0x180, 0x80},
+    {sGfx_Emoticons + 0x1C0, 0x80},
+    {sGfx_Emoticons + 0x200, 0x80},
 
-    overworld_frame(sGfx_Emoticons, 2, 2, 3),
-    overworld_frame(sGfx_Emoticons, 2, 2, 4),
-    overworld_frame(sGfx_Emoticons, 2, 2, 5),
+    {sGfx_Emoticons + 0x0C0, 0x80},
+    {sGfx_Emoticons + 0x100, 0x80},
+    {sGfx_Emoticons + 0x140, 0x80},
 
-    overworld_frame(sGfx_Emoticons, 2, 2,  9),
-    overworld_frame(sGfx_Emoticons, 2, 2, 10),
-    overworld_frame(sGfx_Emoticons, 2, 2, 11),
+    {sGfx_Emoticons + 0x240, 0x80},
+    {sGfx_Emoticons + 0x280, 0x80},
+    {sGfx_Emoticons + 0x2C0, 0x80},
 
-    overworld_frame(sGfx_Emoticons, 2, 2, 12),
-    overworld_frame(sGfx_Emoticons, 2, 2, 13),
-    overworld_frame(sGfx_Emoticons, 2, 2, 14),
+    {sGfx_Emoticons + 0x300, 0x80},
+    {sGfx_Emoticons + 0x340, 0x80},
+    {sGfx_Emoticons + 0x380, 0x80},
+	
+	{sGfx_Emoticons + 0x3C0, 0x80},
+    {sGfx_Emoticons + 0x400, 0x80},
+    {sGfx_Emoticons + 0x440, 0x80},
 };
 
 static const union AnimCmd sAnimCmd_ExclamationMark1[] = {
@@ -636,12 +639,20 @@ static const union AnimCmd sAnimCmd_QuestionMark[] = {
     ANIMCMD_END
 };
 
+static const union AnimCmd sAnimCmd_Dots[] = {
+    ANIMCMD_FRAME(15,  4),
+    ANIMCMD_FRAME(16,  4),
+    ANIMCMD_FRAME(17, 52),
+    ANIMCMD_END
+};
+
 static const union AnimCmd *const sSpriteAnimTable_Emoticons[] = {
     sAnimCmd_ExclamationMark1,
     sAnimCmd_DoubleExclMark,
     sAnimCmd_X,
     sAnimCmd_SmileyFace,
-    sAnimCmd_QuestionMark
+    sAnimCmd_QuestionMark,
+	sAnimCmd_Dots
 };
 
 static const struct SpriteTemplate sSpriteTemplate_Emoticons = {
@@ -660,6 +671,16 @@ u8 FldEff_ExclamationMarkIcon1(void)
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EXCLAMATION_MARK_ICON, 0);
+
+    return 0;
+}
+
+u8 FldEff_DotsIcon1(void)
+{
+    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x53);
+
+    if (spriteId != MAX_SPRITES)
+        SetIconSpriteData(&gSprites[spriteId], FLDEFF_DOTS_ICON, 5);
 
     return 0;
 }

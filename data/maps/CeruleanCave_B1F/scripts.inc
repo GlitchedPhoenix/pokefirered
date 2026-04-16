@@ -14,10 +14,16 @@ CeruleanCave_B1F_EventScript_TryRemoveMewtwo::
 	return
 
 CeruleanCave_B1F_OnTransition::
+	call_if_set FLAG_FOUGHT_MEWTWO, CeruleanCave_B1F_EventScript_HideMewtwo
 	call_if_unset FLAG_FOUGHT_MEWTWO, CeruleanCave_B1F_EventScript_ShowMewtwo
 	end
 
+CeruleanCave_B1F_EventScript_HideMewtwo::
+	setflag FLAG_HIDE_MEWTWO
+	return
+
 CeruleanCave_B1F_EventScript_ShowMewtwo::
+	goto_if_set FLAG_MEWTWO_RAN, EventScript_Return
 	clearflag FLAG_HIDE_MEWTWO
 	return
 
@@ -48,11 +54,11 @@ CeruleanCave_B1F_EventScript_Mewtwo::
 	end
 
 CeruleanCave_B1F_EventScript_DefeatedMewtwo::
-	setflag FLAG_FOUGHT_MEWTWO
+	setflag FLAG_MEWTWO_RAN
 	goto EventScript_RemoveStaticMon
 	end
 
 CeruleanCave_B1F_EventScript_RanFromMewtwo::
 	setvar VAR_0x8004, SPECIES_MEWTWO
-	goto EventScript_MonFlewAway
+	goto EventScript_MonRanAway
 	end

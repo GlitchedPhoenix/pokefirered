@@ -343,7 +343,7 @@ VictoryRoad_1F_EventScript_ItemTM02::
 	end
 
 VictoryRoad_2F_EventScript_ItemGuardSpec::
-	finditem ITEM_GUARD_SPEC
+	finditem ITEM_TORN_SCRAP_1
 	end
 
 VictoryRoad_2F_EventScript_ItemTM07::
@@ -548,6 +548,10 @@ FiveIsland_Meadow_EventScript_ItemPPUp::
 
 FiveIsland_MemorialPillar_EventScript_ItemMetalCoat::
 	finditem ITEM_METAL_COAT
+	end
+
+FiveIsland_MemorialPillar_EventScript_ItemTM42::
+	finditem ITEM_TM42
 	end
 
 SixIsland_OutcastIsland_EventScript_ItemPPUp::

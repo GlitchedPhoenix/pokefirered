@@ -1,10 +1,18 @@
 EventScript_SetDefeatedEliteFourFlagsVars::
 	clearflag FLAG_HIDE_POSTGAME_GOSSIPERS
+	clearflag FLAG_HIDE_CONVENIENCE_DAISY
+	setflag FLAG_HIDE_TWOISLAND_FT
+	clearflag FLAG_HIDE_CONVENIENCE_FT
+	call_if_unset FLAG_HIDE_TOWN_MAP, EventScript_UnhideConvenienceMap
 	call EventScript_ResetEliteFour
 	special Script_UpdateTrainerFanClubGameClear
 	specialvar VAR_RESULT, IsNationalPokedexEnabled
 	call_if_eq VAR_RESULT, FALSE, EventScript_SetReadyTryGiveNationalDexScene
 	call EventScript_ResetLegendaries
+	return
+
+EventScript_UnhideConvenienceMap::
+	clearflag FLAG_HIDE_TOWN_MAP_CONVENIENCE
 	return
 
 EventScript_SetReadyTryGiveNationalDexScene::
@@ -14,7 +22,25 @@ EventScript_SetReadyTryGiveNationalDexScene::
 EventScript_ResetLegendaries::
 	clearflag FLAG_LUGIA_FLEW_AWAY
 	clearflag FLAG_HO_OH_FLEW_AWAY
+	clearflag FLAG_SUICUNE_RAN_AWAY
 	clearflag FLAG_DEOXYS_FLEW_AWAY
+	clearflag FLAG_MOLTRES_RAN
+	clearflag FLAG_ZAPDOS_RAN
+	clearflag FLAG_ARTICUNO_RAN
+	clearflag FLAG_MEWTWO_RAN
+	clearflag FLAG_DEFEATED_LATIAS_OR_LATIOS
+	clearflag FLAG_DEFEATED_MEW
+	call_if_unset FLAG_FOUGHT_SUICUNE, EventScript_ResetNavelRock
+	call_if_set FLAG_ROAMER_ENABLED, EventScript_ResetRoamer
+	return
+
+EventScript_ResetRoamer::
+	goto_if_set FLAG_ROAMER_CAUGHT, EventScript_Return
+	special InitRoamer
+	return
+
+EventScript_ResetNavelRock::
+	setvar VAR_NAVEL_ROCK_PROGRESS, 0
 	return
 
 EventScript_ResetEliteFourEnd::

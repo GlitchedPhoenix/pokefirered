@@ -66,6 +66,18 @@ NavelRock_Base_EventScript_Lugia::
 	release
 	end
 
+NavelRock_Base_EventScript_SuicuneHint::
+	lock
+	setvar VAR_0x8005, 130
+	braillemessage_wait Braille_Text_GoldAhead
+	braillemessage_wait Braille_Text_SilverBehind
+	braillemessage_wait Braille_Text_Together
+	braillemessage_wait Braille_Text_TheyBecome
+	braillemessage Braille_Text_Crystal
+	waitbuttonpress
+	release
+	end
+
 NavelRock_Base_EventScript_DefeatedLugia::
 	setflag FLAG_LUGIA_FLEW_AWAY
 	setvar VAR_0x8004, SPECIES_LUGIA

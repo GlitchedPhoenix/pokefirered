@@ -1769,6 +1769,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u32 personality;
     u32 value;
     u16 checksum;
+	u32 shinyValue;
+	u8 i;
 
     ZeroBoxMonData(boxMon);
 
@@ -1777,12 +1779,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     else
         personality = Random32();
 
-    SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
-
     //Determine original trainer ID
     if (otIdType == OT_ID_RANDOM_NO_SHINY) //Pokemon cannot be shiny
     {
-        u32 shinyValue;
         do
         {
             value = Random32();
@@ -1799,8 +1798,36 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+		
+		if (FlagGet(FLAG_TEMPEST_PIN_ACTIVE))
+		{
+			u16 rerolls = 16;
+			u8 nature = personality % NUM_NATURES;  // keep current nature
+			
+			if (FlagGet(FLAG_OCEAN_ANKLET_ACTIVE))
+				rerolls = 24;
+			
+			for (i = 0; i < rerolls; i++)
+			{
+				do {
+					personality = Random32();
+				} while (nature != GetNatureFromPersonality(personality));
+				shinyValue = GET_SHINY_VALUE(value, personality);
+				if (shinyValue < SHINY_ODDS)
+					break;
+			}
+		}
+		
+		if (FlagGet(FLAG_SHINY_CREATION))
+        {
+            u8 nature = personality % NUM_NATURES;  // keep current nature
+            do {
+                personality = Random32();
+                personality = ((((Random() % SHINY_ODDS) ^ (HIHALF(value) ^ LOHALF(value))) ^ LOHALF(personality)) << 16) | LOHALF(personality);
+            } while (nature != GetNatureFromPersonality(personality));
+        }
     }
-
+	SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
     SetBoxMonData(boxMon, MON_DATA_OT_ID, &value);
 
     checksum = CalculateBoxMonChecksum(boxMon);
@@ -3654,11 +3681,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     case MON_DATA_IVS:
     {
-#ifdef BUGFIX
         u32 ivs = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
-#else
-        u32 ivs = *data; // Bug: Only the HP IV and the lower 3 bits of the Attack IV are read. The rest become 0.
-#endif
         substruct3->hpIV = ivs & MAX_IV_MASK;
         substruct3->attackIV = (ivs >> 5) & MAX_IV_MASK;
         substruct3->defenseIV = (ivs >> 10) & MAX_IV_MASK;
@@ -3978,6 +4001,12 @@ bool8 ExecuteTableBasedItemEffect(struct Pokemon *mon, u16 item, u8 partyIndex, 
     if (retVal == 0 && friendshipChange == 0)                                                           \
     {                                                                                                   \
         friendshipChange = itemEffect[idx];                                                             \
+		if (FlagGet(FLAG_AQUA_NECKLACE_ACTIVE))\
+		{                                                                                               \
+			friendshipChange *= 2;                                                                      \
+			if (FlagGet(FLAG_OCEAN_ANKLET_ACTIVE))\
+				friendshipChange *= 3;\
+		}\
         friendship = GetMonData(mon, MON_DATA_FRIENDSHIP, NULL);                                        \
         if (friendshipChange > 0 && holdEffect == HOLD_EFFECT_FRIENDSHIP_UP)                            \
             friendship += 150 * friendshipChange / 100;                                                 \
@@ -5490,6 +5519,13 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
         if (delta > 0 && holdEffect == HOLD_EFFECT_FRIENDSHIP_UP)
             // 50% increase, rounding down
             delta = (150 * delta) / 100;
+		
+		if (delta > 0 && FlagGet(FLAG_AQUA_NECKLACE_ACTIVE))
+		{
+			delta *= 2;
+			if (FlagGet(FLAG_OCEAN_ANKLET_ACTIVE))
+				delta *= 3;
+		}
 
         friendship += delta;
         if (delta > 0)
@@ -5863,6 +5899,7 @@ static u16 GetBattleBGM(void)
             return MUS_VS_CHAMPION;
         case TRAINER_CLASS_LEADER:
         case TRAINER_CLASS_ELITE_FOUR:
+		case TRAINER_CLASS_VAGABOND:
             return MUS_VS_GYM_LEADER;
         case TRAINER_CLASS_BOSS:
         case TRAINER_CLASS_TEAM_ROCKET:

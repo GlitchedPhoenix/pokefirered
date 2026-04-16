@@ -35,6 +35,24 @@ FiveIsland_RocketWarehouse_EventScript_Computer::
 	msgbox FiveIsland_RocketWarehouse_Text_ReportWithGraphsAndText, MSGBOX_SIGN
 	end
 
+FiveIsland_RocketWarehouse_EventScript_Computer2::
+	lock
+	msgbox FiveIsland_RocketWarehouse_Text_Email
+	closemessage
+	textcolor 1
+	msgbox FiveIsland_RocketWarehouse_Text_EncryptedMessage, MSGBOX_SIGN
+	closemessage
+	delay 32
+	textcolor 3
+	msgbox FiveIsland_RocketWarehouse_Text_What
+	setvar VAR_EMAIL_HINT, 2
+	release
+	end
+	
+FiveIsland_RocketWarehouse_EventScript_BurnedCipher::
+	msgbox FiveIsland_RocketWarehouse_Text_BurnedCipher, MSGBOX_SIGN
+	end
+
 FiveIsland_RocketWarehouse_EventScript_Admin2Trigger::
 	lockall
 	applymovement LOCALID_WAREHOUSE_ADMIN2, Common_Movement_WalkInPlaceFasterLeft
@@ -47,7 +65,52 @@ FiveIsland_RocketWarehouse_EventScript_Gideon::
 	trainerbattle_single TRAINER_SCIENTIST_GIDEON, FiveIsland_RocketWarehouse_Text_GideonIntro, FiveIsland_RocketWarehouse_Text_GideonDefeat, FiveIsland_RocketWarehouse_EventScript_DefeatedGideon
 	goto_if_set FLAG_SYS_CAN_LINK_WITH_RS, FiveIsland_RocketWarehouse_EventScript_MentionGiovannisKid
 	msgbox FiveIsland_RocketWarehouse_Text_GetLostLeaveMeBe, MSGBOX_AUTOCLOSE
+	goto_if_eq VAR_EMAIL_HINT, 0, FiveIsland_RocketWarehouse_EventScript_ActivateHint
 	end
+
+FiveIsland_RocketWarehouse_EventScript_ActivateHint::
+	addvar VAR_EMAIL_HINT, 1
+	release
+	end
+
+FiveIsland_RocketWarehouse_EventScript_ComputerBeep::
+	lock
+	playse SE_PC_LOGIN
+	delay 16
+	playse SE_PIN
+	applymovement LOCALID_PLAYER, FiveIsland_RocketWarehouse_Movement_PlayerAlertUp
+	waitmovement 0
+	delay 32
+	msgbox FiveIsland_RocketWarehouse_Text_WTF
+	setvar VAR_EMAIL_HINT, 2
+	release
+	end
+
+FiveIsland_RocketWarehouse_EventScript_ComputerBeep2::
+	lock
+	playse SE_PC_LOGIN
+	delay 16
+	playse SE_PIN
+	applymovement LOCALID_PLAYER, FiveIsland_RocketWarehouse_Movement_PlayerAlertDown
+	waitmovement 0
+	delay 32
+	msgbox FiveIsland_RocketWarehouse_Text_WTF
+	setvar VAR_EMAIL_HINT, 2
+	release
+	end
+
+FiveIsland_RocketWarehouse_Text_WTF::
+	.string "...?$"
+
+FiveIsland_RocketWarehouse_Movement_PlayerAlertUp::
+	walk_in_place_faster_up
+	emote_exclamation_mark
+	step_end
+
+FiveIsland_RocketWarehouse_Movement_PlayerAlertDown::
+	walk_in_place_faster_down
+	emote_exclamation_mark
+	step_end
 
 FiveIsland_RocketWarehouse_EventScript_MentionGiovannisKid::
 	famechecker FAMECHECKER_GIOVANNI, 5

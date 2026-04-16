@@ -71,7 +71,9 @@ static const s8 sSeag[][4] = {
     [SEAGALLOP_SEVEN_ISLAND]    = {MAP(MAP_SEVEN_ISLAND_HARBOR), 0x08, 0x05},
     [SEAGALLOP_CINNABAR_ISLAND] = {MAP(MAP_CINNABAR_ISLAND),     0x15, 0x07},
     [SEAGALLOP_NAVEL_ROCK]      = {MAP(MAP_NAVEL_ROCK_HARBOR),   0x08, 0x05},
-    [SEAGALLOP_BIRTH_ISLAND]    = {MAP(MAP_BIRTH_ISLAND_HARBOR), 0x08, 0x05}
+    [SEAGALLOP_BIRTH_ISLAND]    = {MAP(MAP_BIRTH_ISLAND_HARBOR), 0x08, 0x05},
+	[SEAGALLOP_SOUTHERN_ISLAND]    = {MAP(MAP_SOUTHERN_ISLAND_EXTERIOR), 0x0F, 0x17},
+	[SEAGALLOP_FARAWAY_ISLAND]    = {MAP(MAP_FARAWAY_ISLAND_ENTRANCE), 0x0F, 0x27}
 };
 
 // Bitpacked array.  In the commented section, right-most bit is the
@@ -469,6 +471,12 @@ u8 GetSeagallopNumber(void)
 
     if (originId == SEAGALLOP_BIRTH_ISLAND || destId == SEAGALLOP_BIRTH_ISLAND)
         return 12;
+	
+	if (originId == SEAGALLOP_SOUTHERN_ISLAND || destId == SEAGALLOP_SOUTHERN_ISLAND)
+        return 15;
+	
+	if (originId == SEAGALLOP_FARAWAY_ISLAND || destId == SEAGALLOP_FARAWAY_ISLAND)
+        return 20;
 
     if ((originId == SEAGALLOP_ONE_ISLAND 
       || originId == SEAGALLOP_TWO_ISLAND 

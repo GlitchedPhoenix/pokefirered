@@ -22,7 +22,7 @@ $(OBJEVENTGFXDIR)/people/agatha.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/balding_man.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/crush_girl.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/battle_girl.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/beauty.4bpp: %.4bpp: %.png
@@ -34,7 +34,7 @@ $(OBJEVENTGFXDIR)/people/biker.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/bill.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/black_belt.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/blackbelt.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/blaine.4bpp: %.4bpp: %.png
@@ -68,6 +68,9 @@ $(OBJEVENTGFXDIR)/people/captain.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/celio.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/fortune_teller.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/channeler.4bpp: %.4bpp: %.png
@@ -241,7 +244,7 @@ $(OBJEVENTGFXDIR)/people/scientist.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/sitting_boy.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
-$(OBJEVENTGFXDIR)/people/poke_maniac.4bpp: %.4bpp: %.png
+$(OBJEVENTGFXDIR)/people/super_nerd.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/people/swimmer_f_land.4bpp: %.4bpp: %.png
@@ -319,6 +322,12 @@ $(OBJEVENTGFXDIR)/pokemon/deoxys_d.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/pokemon/deoxys_n.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 4 -mheight 4
 
+$(OBJEVENTGFXDIR)/pokemon/latios.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
+$(OBJEVENTGFXDIR)/pokemon/latias.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 4 -mheight 4
+
 $(OBJEVENTGFXDIR)/pokemon/doduo.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 2
 
@@ -351,6 +360,9 @@ $(OBJEVENTGFXDIR)/pokemon/machop.4bpp: %.4bpp: %.png
 
 $(OBJEVENTGFXDIR)/pokemon/meowth.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 2
+
+$(OBJEVENTGFXDIR)/pokemon/mew.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
 
 $(OBJEVENTGFXDIR)/pokemon/nidoran_f.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 2

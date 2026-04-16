@@ -72,9 +72,19 @@ gFieldEffectScriptPointers::
 	.4byte gFldEffScript_MoveDeoxysRock          @ FLDEFF_MOVE_DEOXYS_ROCK
 	.4byte gFldEffScript_DestroyDeoxysRock       @ FLDEFF_DESTROY_DEOXYS_ROCK
 	.4byte gFldEffScript_PhotoFlash              @ FLDEFF_PHOTO_FLASH
+	.4byte gFldEffScript_DotsIcon                @ FLDEFF_DOTS_ICON
+	.4byte gFieldEffectScript_UsePuzzleEffect    @ FLDEFF_USE_TOMB_PUZZLE_EFFECT
 
 gFldEffScript_ExclamationMarkIcon::
 	callnative FldEff_ExclamationMarkIcon1
+	end 
+
+gFieldEffectScript_UsePuzzleEffect::
+	callnative FldEff_UsePuzzleEffect
+	end
+
+gFldEffScript_DotsIcon::
+	callnative FldEff_DotsIcon1
 	end 
 
 gFldEffScript_UseCutOnGrass::

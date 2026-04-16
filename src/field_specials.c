@@ -142,6 +142,16 @@ void BufferBigGuyOrBigGirlString(void)
         StringCopy(gStringVar1, gText_BigGirl);
 }
 
+u8 GetFortuneTellerMap(void)
+{
+    if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_TWO_ISLAND_CAPE_BRINK))
+		return 2;
+	else if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_FUCHSIA_CITY))
+		return 17;
+	else
+		return 5;
+}
+
 void BufferSonOrDaughterString(void)
 {
     if (gSaveBlock2Ptr->playerGender == MALE)
@@ -153,6 +163,12 @@ void BufferSonOrDaughterString(void)
 u8 GetBattleOutcome(void)
 {
     return gBattleOutcome;
+}
+
+u8 GetFirstHeldItem(void)
+{
+    struct Pokemon *pokemon = &gPlayerParty[GetLeadMonIndex()];
+    return GetMonData(pokemon, MON_DATA_HELD_ITEM);
 }
 
 void SetHiddenItemFlag(void)
@@ -183,6 +199,18 @@ void ShowTownMap(void)
 {
     QuestLog_CutRecording();
     InitRegionMapWithExitCB(REGIONMAP_TYPE_WALL, CB2_ReturnToFieldContinueScriptPlayMapMusic);
+}
+
+bool8 CheckHoohLugia(void)
+{
+    if (GetMonData(&gPlayerParty[0], MON_DATA_SPECIES_OR_EGG, 0) == SPECIES_HO_OH)
+    {
+        CalculatePlayerPartyCount();
+        // Last comes Relicanth
+        if (GetMonData(&gPlayerParty[gPlayerPartyCount - 1], MON_DATA_SPECIES_OR_EGG, 0) == SPECIES_LUGIA)
+            return TRUE;
+    }
+    return FALSE;
 }
 
 bool8 PlayerHasGrassPokemonInParty(void)

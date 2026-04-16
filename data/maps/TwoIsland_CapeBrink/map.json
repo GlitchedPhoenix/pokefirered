@@ -20,7 +20,36 @@
       "direction": "down"
     }
   ],
-  "object_events": [],
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_WIGGLYTUFF",
+      "x": 16,
+      "y": 20,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
+      "movement_range_x": 2,
+      "movement_range_y": 2,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "FortuneTeller_BuyMail",
+      "flag": "FLAG_HIDE_TWOISLAND_FT"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_FORTUNE_TELLER",
+      "x": 15,
+      "y": 22,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "FortuneTeller_Script_Main",
+      "flag": "FLAG_HIDE_TWOISLAND_FT"
+    }
+  ],
   "warp_events": [
     {
       "x": 12,

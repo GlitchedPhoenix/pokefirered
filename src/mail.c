@@ -139,6 +139,48 @@ static const u16 sGenderPals[][2] = {
 };
 
 static const struct MailGfxData sGfxHeaders[] = {
+	[ITEM_TO_MAIL(ITEM_RUBY_MAIL)] = {
+        .pal = gMailPalette_Ruby,
+        .tiles = gMailTiles_Ruby,
+        .map = gMailTilemap_Sapphire,
+        .size = 0x300,
+        .textpals = { RGB(15, 15, 25), RGB(3, 3, 10)}
+    },
+	[ITEM_TO_MAIL(ITEM_EMERALD_MAIL)] = {
+        .pal = gMailPalette_Emerald,
+        .tiles = gMailTiles_Emerald,
+        .map = gMailTilemap_Sapphire,
+        .size = 0x300,
+        .textpals = { RGB(25, 25, 15), RGB(10, 10, 3)}
+    },
+	[ITEM_TO_MAIL(ITEM_RED_MAIL)] = {
+        .pal = gMailPalette_FireRed,
+        .tiles = gMailTiles_FireRed,
+        .map = gMailTilemap_Sapphire,
+        .size = 0x300,
+        .textpals = { RGB(25, 13, 5), RGB(10, 4, 0)}
+    },
+	[ITEM_TO_MAIL(ITEM_GREEN_MAIL)] = {
+        .pal = gMailPalette_LeafGreen,
+        .tiles = gMailTiles_LeafGreen,
+        .map = gMailTilemap_Sapphire,
+        .size = 0x300,
+        .textpals = { RGB(13, 25, 5), RGB(4, 10, 0)}
+    },
+	[ITEM_TO_MAIL(ITEM_BLUE_MAIL)] = {
+        .pal = gMailPalette_Sapphire,
+        .tiles = gMailTiles_Sapphire,
+        .map = gMailTilemap_Sapphire,
+        .size = 0x300,
+        .textpals = { RGB(10, 10, 10), RGB(25, 25, 25)}
+    },
+	[ITEM_TO_MAIL(ITEM_SAPPHIRE_MAIL)] = {
+        .pal = gMailPalette_Sapphire,
+        .tiles = gMailTiles_Sapphire,
+        .map = gMailTilemap_Sapphire,
+        .size = 0x300,
+        .textpals = { RGB(25, 15, 15), RGB(10, 3, 3)}
+    },
     [ITEM_TO_MAIL(ITEM_ORANGE_MAIL)]  = {
         .pal = gFile_graphics_mail_orange_palette_pal,
         .tiles = gFile_graphics_mail_orange_tiles_sheet,
@@ -232,6 +274,54 @@ static const struct MailEcWordLayout sLayout_3x3[] = {
 };
 
 static const struct MailAttrStruct sMessageLayouts_3x3[] = {
+	[ITEM_TO_MAIL(ITEM_RUBY_MAIL)]  = {
+    	.numRows = 3,
+    	.nameY = 0,
+    	.nameX = 0,
+    	.messageTop = 2,
+    	.messageLeft = 4,
+    	.linesLayout = sLayout_3x3
+    },
+	[ITEM_TO_MAIL(ITEM_EMERALD_MAIL)]  = {
+    	.numRows = 3,
+    	.nameY = 0,
+    	.nameX = 0,
+    	.messageTop = 2,
+    	.messageLeft = 4,
+    	.linesLayout = sLayout_3x3
+    },
+	[ITEM_TO_MAIL(ITEM_RED_MAIL)]  = {
+    	.numRows = 3,
+    	.nameY = 0,
+    	.nameX = 0,
+    	.messageTop = 2,
+    	.messageLeft = 4,
+    	.linesLayout = sLayout_3x3
+    },
+	[ITEM_TO_MAIL(ITEM_GREEN_MAIL)]  = {
+    	.numRows = 3,
+    	.nameY = 0,
+    	.nameX = 0,
+    	.messageTop = 2,
+    	.messageLeft = 4,
+    	.linesLayout = sLayout_3x3
+    },
+	[ITEM_TO_MAIL(ITEM_BLUE_MAIL)]  = {
+    	.numRows = 3,
+    	.nameY = 0,
+    	.nameX = 0,
+    	.messageTop = 2,
+    	.messageLeft = 4,
+    	.linesLayout = sLayout_3x3
+    },
+	[ITEM_TO_MAIL(ITEM_SAPPHIRE_MAIL)]  = {
+    	.numRows = 3,
+    	.nameY = 0,
+    	.nameX = 0,
+    	.messageTop = 2,
+    	.messageLeft = 4,
+    	.linesLayout = sLayout_3x3
+    },
     [ITEM_TO_MAIL(ITEM_ORANGE_MAIL)]  = {
     	.numRows = 3,
     	.nameY = 0,
@@ -339,6 +429,54 @@ static const struct MailEcWordLayout sLayout_5x2[] = {
 };
 
 static const struct MailAttrStruct sMessageLayouts_5x2[] = {
+	[ITEM_TO_MAIL(ITEM_RUBY_MAIL)]  = {
+      	.numRows = 5,
+      	.nameY = 2,
+      	.nameX = 10,
+      	.messageTop = 3,
+      	.messageLeft = 8,
+      	.linesLayout = sLayout_5x2
+    },
+	[ITEM_TO_MAIL(ITEM_EMERALD_MAIL)]  = {
+      	.numRows = 5,
+      	.nameY = 2,
+      	.nameX = 10,
+      	.messageTop = 3,
+      	.messageLeft = 8,
+      	.linesLayout = sLayout_5x2
+    },
+	[ITEM_TO_MAIL(ITEM_RED_MAIL)]  = {
+      	.numRows = 5,
+      	.nameY = 2,
+      	.nameX = 10,
+      	.messageTop = 3,
+      	.messageLeft = 8,
+      	.linesLayout = sLayout_5x2
+    },
+	[ITEM_TO_MAIL(ITEM_GREEN_MAIL)]  = {
+      	.numRows = 5,
+      	.nameY = 2,
+      	.nameX = 10,
+      	.messageTop = 3,
+      	.messageLeft = 8,
+      	.linesLayout = sLayout_5x2
+    },
+	[ITEM_TO_MAIL(ITEM_BLUE_MAIL)]  = {
+      	.numRows = 5,
+      	.nameY = 2,
+      	.nameX = 10,
+      	.messageTop = 3,
+      	.messageLeft = 8,
+      	.linesLayout = sLayout_5x2
+    },
+	[ITEM_TO_MAIL(ITEM_SAPPHIRE_MAIL)]  = {
+      	.numRows = 5,
+      	.nameY = 2,
+      	.nameX = 10,
+      	.messageTop = 3,
+      	.messageLeft = 8,
+      	.linesLayout = sLayout_5x2
+    },
     [ITEM_TO_MAIL(ITEM_ORANGE_MAIL)]  = {
       	.numRows = 5,
       	.nameY = 0,
@@ -452,7 +590,7 @@ void ReadMail(struct Mail * mail, void (*savedCallback)(void), bool8 messageExis
     }
     else
     {
-        sMailViewResources->mailType = ITEM_TO_MAIL(ITEM_ORANGE_MAIL);
+        sMailViewResources->mailType = ITEM_TO_MAIL(ITEM_RUBY_MAIL);
         messageExists = FALSE;
     }
     switch (sMailViewResources->mailArrangementType)

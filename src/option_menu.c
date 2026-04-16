@@ -2,6 +2,7 @@
 #include "gflib.h"
 #include "scanline_effect.h"
 #include "text_window_graphics.h"
+#include "new_menu_helpers.h"
 #include "menu.h"
 #include "task.h"
 #include "overworld.h"
@@ -10,6 +11,20 @@
 #include "strings.h"
 #include "field_fadetransition.h"
 #include "gba/m4a_internal.h"
+
+#define tMenuSelection data[0]
+#define tTextSpeed data[1]
+#define tBattleSceneOff data[2]
+#define tBattleStyle data[3]
+#define tSound data[4]
+#define tButtonMode data[5]
+#define tWindowFrameType data[6]
+#define tQuickNurse data[7]
+#define tPermaRun data[8]
+#define tQuickContinue data[9]
+#define tExpAll data[10]
+
+#define PAGE_COUNT  2
 
 // can't include the one in menu_helpers.h since Task_OptionMenu needs bool32 for matching
 bool32 IsActiveOverworldLinkBusy(void);
@@ -23,8 +38,18 @@ enum
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
-    MENUITEM_CANCEL,
+    MENUITEM_NEXT,
     MENUITEM_COUNT
+};
+
+enum
+{
+    MENUITEM_QUICKNURSE,
+    MENUITEM_PERMARUN,
+    MENUITEM_QUICKCONTINUE,
+	MENUITEM_EXPALL,
+    MENUITEM_BACK,
+    MENUITEM_COUNT_2
 };
 
 // Window Ids
@@ -45,6 +70,7 @@ struct OptionMenu
 };
 
 static EWRAM_DATA struct OptionMenu *sOptionMenuPtr = NULL;
+EWRAM_DATA static u8 sCurrPage = 0;
 
 //Function Declarataions
 static void CB2_InitOptionMenu(void);
@@ -55,11 +81,13 @@ static void CB2_OptionMenu(void);
 static void SetOptionMenuTask(void);
 static void InitOptionMenuBg(void);
 static void OptionMenu_PickSwitchCancel(void);
+static void Task_ChangePage(u8 taskId);
 static void OptionMenu_ResetSpriteData(void);
 static bool8 LoadOptionMenuPalette(void);
 static void Task_OptionMenu(u8 taskId);
-static u8 OptionMenu_ProcessInput(void);
+static u8 OptionMenu_ProcessInput(u8 taskId);
 static void BufferOptionMenuString(u8 selection);
+static void BufferOptionMenuString2(u8 selection);
 static void CloseAndSaveOptionMenu(u8 taskId);
 static void PrintOptionMenuHeader(void);
 static void DrawOptionMenuBg(void);
@@ -132,6 +160,7 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
 
 static const u16 sOptionMenuPalette[] = INCBIN_U16("graphics/misc/option_menu.gbapal");
 static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
+static const u16 sOptionMenuItemCounts2[MENUITEM_COUNT] = {2, 2, 2, 2, 0};
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -141,7 +170,28 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_SOUND]       = gText_Sound,
     [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]   = gText_Frame,
-    [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
+    [MENUITEM_NEXT]      = gText_OptionMenuNext,
+};
+
+static const u8 *const sOptionMenuItemsNames_Pg2[MENUITEM_COUNT_2] =
+{
+    [MENUITEM_QUICKNURSE]          = gText_Nurse,
+    [MENUITEM_PERMARUN]            = gText_AlwaysRun,
+    [MENUITEM_QUICKCONTINUE]       = gText_Continue,
+	[MENUITEM_EXPALL]       = gText_ExpAll,
+    [MENUITEM_BACK]                = gText_OptionMenuBack
+};
+
+static const u8 *const sContinueNames[] =
+{
+    gText_Default,
+    gText_Menu,
+};
+
+static const u8 *const sQuickNurseOptions[] =
+{
+    gText_Normal,
+    gText_Quick2,
 };
 
 static const u8 *const sTextSpeedOptions[] =
@@ -155,6 +205,12 @@ static const u8 *const sBattleSceneOptions[] =
 {
     gText_BattleSceneOn, 
     gText_BattleSceneOff
+};
+
+static const u8 *const sPermaRunOptions[] =
+{
+    gText_BattleSceneOff, 
+    gText_BattleSceneOn
 };
 
 static const u8 *const sBattleStyleOptions[] =
@@ -193,6 +249,53 @@ static void VBlankCB_OptionMenu(void)
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
+}
+
+static void ReadAllCurrentSettings(u8 taskId)
+{
+    gTasks[taskId].tMenuSelection = 0;
+	gTasks[taskId].tTextSpeed = gSaveBlock2Ptr->optionsTextSpeed;
+	gTasks[taskId].tBattleSceneOff = gSaveBlock2Ptr->optionsBattleSceneOff;
+	gTasks[taskId].tBattleStyle = gSaveBlock2Ptr->optionsBattleStyle;
+	gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
+	gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
+	gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
+	gTasks[taskId].tQuickNurse = gSaveBlock2Ptr->quickNurse;
+	gTasks[taskId].tPermaRun = gSaveBlock2Ptr->permaRun;
+	gTasks[taskId].tQuickContinue = gSaveBlock2Ptr->quickContinue;
+	gTasks[taskId].tExpAll = gSaveBlock2Ptr->expAll;
+}
+
+static void HandlePageSettings(u8 taskId)
+{
+	if (sCurrPage == 1)
+	{
+		gTasks[taskId].tTextSpeed = sOptionMenuPtr->option[MENUITEM_TEXTSPEED];
+		gTasks[taskId].tBattleSceneOff = sOptionMenuPtr->option[MENUITEM_BATTLESCENE];
+		gTasks[taskId].tBattleStyle = sOptionMenuPtr->option[MENUITEM_BATTLESTYLE];
+		gTasks[taskId].tSound = sOptionMenuPtr->option[MENUITEM_SOUND];
+		gTasks[taskId].tButtonMode = sOptionMenuPtr->option[MENUITEM_BUTTONMODE];
+		gTasks[taskId].tWindowFrameType = sOptionMenuPtr->option[MENUITEM_FRAMETYPE];
+		
+		sOptionMenuPtr->option[MENUITEM_QUICKNURSE] = gTasks[taskId].tQuickNurse;
+		sOptionMenuPtr->option[MENUITEM_PERMARUN] = gTasks[taskId].tPermaRun;
+		sOptionMenuPtr->option[MENUITEM_QUICKCONTINUE] = gTasks[taskId].tQuickContinue;
+		sOptionMenuPtr->option[MENUITEM_EXPALL] = gTasks[taskId].tExpAll;
+	}
+	else
+	{
+		gTasks[taskId].tQuickNurse = sOptionMenuPtr->option[MENUITEM_QUICKNURSE];
+		gTasks[taskId].tPermaRun = sOptionMenuPtr->option[MENUITEM_PERMARUN];
+		gTasks[taskId].tQuickContinue = sOptionMenuPtr->option[MENUITEM_QUICKCONTINUE];
+		gTasks[taskId].tExpAll = sOptionMenuPtr->option[MENUITEM_EXPALL];
+		
+		sOptionMenuPtr->option[MENUITEM_TEXTSPEED] = gTasks[taskId].tTextSpeed;
+		sOptionMenuPtr->option[MENUITEM_BATTLESCENE] = gTasks[taskId].tBattleSceneOff;
+		sOptionMenuPtr->option[MENUITEM_BATTLESTYLE] = gTasks[taskId].tBattleStyle;
+		sOptionMenuPtr->option[MENUITEM_SOUND] = gTasks[taskId].tSound;
+		sOptionMenuPtr->option[MENUITEM_BUTTONMODE] = gTasks[taskId].tButtonMode;
+		sOptionMenuPtr->option[MENUITEM_FRAMETYPE] = gTasks[taskId].tWindowFrameType;
+	}
 }
 
 void CB2_OptionsMenuFromStartMenu(void)
@@ -262,9 +365,20 @@ static void CB2_OptionMenu(void)
         LoadOptionMenuItemNames();
         break;
     case 7:
-        for (i = 0; i < MENUITEM_COUNT; i++)
-            BufferOptionMenuString(i);
-        break;
+		if (sCurrPage == 1)
+		{
+			for (i = 0; i < MENUITEM_COUNT_2; i++)
+			{
+				BufferOptionMenuString2(i);
+			}
+		}
+		else
+		{
+			for (i = 0; i < MENUITEM_COUNT; i++)
+			{
+				BufferOptionMenuString(i);
+			}
+		}
     case 8:
         UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
         break;
@@ -368,12 +482,13 @@ static void Task_OptionMenu(u8 taskId)
     case 1:
         if (gPaletteFade.active)
             return;
+		ReadAllCurrentSettings(taskId);
         sOptionMenuPtr->loadState++;
         break;
     case 2:
         if (((bool32)IsActiveOverworldLinkBusy()) == TRUE)
             break;
-        switch (OptionMenu_ProcessInput())
+        switch (OptionMenu_ProcessInput(taskId))
         {
         case 0:
             break;
@@ -383,14 +498,29 @@ static void Task_OptionMenu(u8 taskId)
         case 2:
             LoadBgTiles(1, GetUserWindowGraphics(sOptionMenuPtr->option[MENUITEM_FRAMETYPE])->tiles, 0x120, 0x1AA);
             LoadPalette(GetUserWindowGraphics(sOptionMenuPtr->option[MENUITEM_FRAMETYPE])->palette, BG_PLTT_ID(2), PLTT_SIZE_4BPP);
-            BufferOptionMenuString(sOptionMenuPtr->cursorPos);
+			if (sCurrPage == 1)
+				BufferOptionMenuString2(sOptionMenuPtr->cursorPos);
+			else
+				BufferOptionMenuString(sOptionMenuPtr->cursorPos);
             break;
         case 3:
             UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
             break;
         case 4:
-            BufferOptionMenuString(sOptionMenuPtr->cursorPos);
+            if (sCurrPage == 1)
+				BufferOptionMenuString2(sOptionMenuPtr->cursorPos);
+			else
+				BufferOptionMenuString(sOptionMenuPtr->cursorPos);
             break;
+		case 5:
+			FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
+			ClearStdWindowAndFrame(WIN_OPTIONS, FALSE);
+			if (sCurrPage == 1)
+				sCurrPage--;
+			else
+				sCurrPage++;
+			gTasks[taskId].func = Task_ChangePage;
+			break;
         }
         break;
     case 3:
@@ -408,29 +538,96 @@ static void Task_OptionMenu(u8 taskId)
     }
 }
 
-static u8 OptionMenu_ProcessInput(void)
+static void Task_ChangePage(u8 taskId)
+{
+	u8 i;
+	
+	HandlePageSettings(taskId);
+	
+    PrintOptionMenuHeader();
+    PutWindowTilemap(1);
+	LoadOptionMenuItemNames();
+    if (sCurrPage == 1)
+	{
+		for (i = 0; i < MENUITEM_COUNT_2; i++)
+		{
+			BufferOptionMenuString2(i);
+		}
+	}
+	else
+	{
+		for (i = 0; i < MENUITEM_COUNT; i++)
+		{
+			BufferOptionMenuString(i);
+		}
+	}
+	sOptionMenuPtr->cursorPos = 0;
+	UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
+	gTasks[taskId].func = Task_OptionMenu;
+}
+
+static u8 OptionMenu_ProcessInput(u8 taskId)
 { 
     u16 current;
     u16 *curr;
+	u8 dst[3];
+	memcpy(dst, sOptionMenuTextColor, 3);
     if (JOY_REPT(DPAD_RIGHT))
     {
         current = sOptionMenuPtr->option[(sOptionMenuPtr->cursorPos)];
-        if (current == (sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1))
-            sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = 0;
-        else
-            sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = current + 1;
+		if (sCurrPage == 1)
+		{
+			if (current == (sOptionMenuItemCounts2[sOptionMenuPtr->cursorPos] - 1))
+				sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = 0;
+			else
+				sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = current + 1;
+		}
+		else
+		{
+			if (current == (sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1))
+				sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = 0;
+			else
+				sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = current + 1;
+		}
         if (sOptionMenuPtr->cursorPos == MENUITEM_FRAMETYPE)
             return 2;
         else
             return 4;
     }
+	else if (JOY_NEW(A_BUTTON))
+    {
+		if (sCurrPage == 1)
+		{
+			if (sOptionMenuPtr->cursorPos == MENUITEM_BACK)
+			{
+				return 5;
+			}
+		}
+		else
+		{
+			if (sOptionMenuPtr->cursorPos == MENUITEM_NEXT)
+			{
+				return 5;
+			}
+		}
+	}
     else if (JOY_REPT(DPAD_LEFT))
     {
         curr = &sOptionMenuPtr->option[sOptionMenuPtr->cursorPos];
-        if (*curr == 0)
-            *curr = sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1;
-        else
-            --*curr;
+		if (sCurrPage == 1)
+		{
+			if (*curr == 0)
+				*curr = sOptionMenuItemCounts2[sOptionMenuPtr->cursorPos] - 1;
+			else
+				--*curr;
+		}
+		else
+		{
+			if (*curr == 0)
+				*curr = sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1;
+			else
+				--*curr;
+		}
         
         if (sOptionMenuPtr->cursorPos == MENUITEM_FRAMETYPE)
             return 2;
@@ -439,23 +636,46 @@ static u8 OptionMenu_ProcessInput(void)
     }
     else if (JOY_REPT(DPAD_UP))
     {
-        if (sOptionMenuPtr->cursorPos == MENUITEM_TEXTSPEED)
-            sOptionMenuPtr->cursorPos = MENUITEM_CANCEL;
-        else
-            sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
+		if (sCurrPage == 1)
+		{
+			if (sOptionMenuPtr->cursorPos == MENUITEM_QUICKNURSE)
+				sOptionMenuPtr->cursorPos = MENUITEM_BACK;
+			else
+				sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
+		}
+		else
+		{
+			if (sOptionMenuPtr->cursorPos == MENUITEM_TEXTSPEED)
+				sOptionMenuPtr->cursorPos = MENUITEM_NEXT;
+			else
+				sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
+		}
         return 3;        
     }
     else if (JOY_REPT(DPAD_DOWN))
     {
-        if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL)
-            sOptionMenuPtr->cursorPos = MENUITEM_TEXTSPEED;
-        else
-            sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
+		if (sCurrPage == 1)
+		{
+			if (sOptionMenuPtr->cursorPos == MENUITEM_BACK)
+				sOptionMenuPtr->cursorPos = MENUITEM_QUICKNURSE;
+			else
+				sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
+		}
+		else
+		{
+			if (sOptionMenuPtr->cursorPos == MENUITEM_NEXT)
+				sOptionMenuPtr->cursorPos = MENUITEM_TEXTSPEED;
+			else
+				sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
+		}
         return 3;
     }
-    else if (JOY_NEW(B_BUTTON) || JOY_NEW(A_BUTTON))
+    else if (JOY_NEW(B_BUTTON))
     {
-        return 1;
+		if (sCurrPage == 1)
+			return 5;
+		else
+			return 1;
     }
     else
     {
@@ -505,6 +725,39 @@ static void BufferOptionMenuString(u8 selection)
     CopyWindowToVram(1, COPYWIN_FULL);
 }
 
+static void BufferOptionMenuString2(u8 selection)
+{
+    u8 str[20];
+    u8 buf[12];
+    u8 dst[3];
+    u8 x, y;
+    
+    memcpy(dst, sOptionMenuTextColor, 3);
+    x = 0x82;
+    y = ((GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT) - 1) * selection) + 2;
+    FillWindowPixelRect(1, 1, x, y, 0x46, GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT));
+
+    switch (selection)
+    {
+	case MENUITEM_QUICKNURSE:
+        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sQuickNurseOptions[sOptionMenuPtr->option[selection]]);
+        break;
+	case MENUITEM_PERMARUN:
+        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sPermaRunOptions[sOptionMenuPtr->option[selection]]);
+        break;
+	case MENUITEM_QUICKCONTINUE:
+        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sContinueNames[sOptionMenuPtr->option[selection]]);
+        break;
+	case MENUITEM_EXPALL:
+        AddTextPrinterParameterized3(1, FONT_NORMAL, x, y, dst, -1, sPermaRunOptions[sOptionMenuPtr->option[selection]]);
+        break;
+    default:
+        break;
+    }
+    PutWindowTilemap(1);
+    CopyWindowToVram(1, COPYWIN_FULL);
+}
+
 static void CloseAndSaveOptionMenu(u8 taskId)
 {
     gFieldCallback = FieldCB_DefaultWarpExit;
@@ -516,6 +769,10 @@ static void CloseAndSaveOptionMenu(u8 taskId)
     gSaveBlock2Ptr->optionsSound = sOptionMenuPtr->option[MENUITEM_SOUND];
     gSaveBlock2Ptr->optionsButtonMode = sOptionMenuPtr->option[MENUITEM_BUTTONMODE];
     gSaveBlock2Ptr->optionsWindowFrameType = sOptionMenuPtr->option[MENUITEM_FRAMETYPE];
+	gSaveBlock2Ptr->quickNurse = gTasks[taskId].tQuickNurse;
+	gSaveBlock2Ptr->permaRun = gTasks[taskId].tPermaRun;
+	gSaveBlock2Ptr->quickContinue = gTasks[taskId].tQuickContinue;
+	gSaveBlock2Ptr->expAll = gTasks[taskId].tExpAll;
     SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
@@ -523,8 +780,23 @@ static void CloseAndSaveOptionMenu(u8 taskId)
 
 static void PrintOptionMenuHeader(void)
 {
+	u32 i, widthOptions, xMid;
+    u8 pageDots[9] = _("");  // Array size should be at least (2 * PAGE_COUNT) -1
+    widthOptions = GetStringWidth(FONT_NORMAL, gText_Option, 0);
+	
+	for (i = 0; i < PAGE_COUNT; i++)
+    {
+        if (i == sCurrPage)
+            StringAppend(pageDots, gText_LargeDot);
+        else
+            StringAppend(pageDots, gText_SmallDot);
+        if (i < PAGE_COUNT - 1)
+            StringAppend(pageDots, gText_Space);            
+    }
+	xMid = (8 + widthOptions + 5);
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
     AddTextPrinterParameterized(WIN_TEXT_OPTION, FONT_NORMAL, gText_Option, 8, 1, TEXT_SKIP_DRAW, NULL);
+	AddTextPrinterParameterized(0, FONT_NORMAL, pageDots, xMid, 1, TEXT_SKIP_DRAW, NULL);
     PutWindowTilemap(0);
     CopyWindowToVram(0, COPYWIN_FULL);
 }
@@ -555,13 +827,24 @@ static void DrawOptionMenuBg(void)
 
 static void LoadOptionMenuItemNames(void)
 {
-    u8 i;
-    
-    FillWindowPixelBuffer(1, PIXEL_FILL(1));
-    for (i = 0; i < MENUITEM_COUNT; i++)
-    {
-        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, sOptionMenuItemsNames[i], 8, (u8)((i * (GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SKIP_DRAW, NULL);    
+    u8 i, items;
+    const u8* const* menu = NULL;
+
+    switch (sCurrPage){
+    case 0:
+        items = MENUITEM_COUNT;
+        menu = sOptionMenuItemsNames;
+        break;
+    case 1:
+        items = MENUITEM_COUNT_2;
+        menu = sOptionMenuItemsNames_Pg2;
+        break;    
     }
+
+    FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
+    for (i = 0; i < items; i++)
+        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, menu[i], 8, (u8)((i * (GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SKIP_DRAW, NULL);    
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
 }
 
 static void UpdateSettingSelectionDisplay(u16 selection)

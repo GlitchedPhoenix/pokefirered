@@ -22,15 +22,17 @@
       "elevation": 3,
       "dest_map": "MAP_NAVEL_ROCK_FORK",
       "dest_warp_id": "1"
-    },
-    {
-      "x": 2,
-      "y": 2,
-      "elevation": 3,
-      "dest_map": "MAP_NAVEL_ROCK_SUMMIT_PATH_3F",
-      "dest_warp_id": "0"
     }
   ],
   "coord_events": [],
-  "bg_events": []
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 4,
+      "y": 1,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "NavelRock_Base_EventScript_SuicuneHint"
+    }
+  ]
 }

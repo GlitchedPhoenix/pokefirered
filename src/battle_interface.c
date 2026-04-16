@@ -1082,7 +1082,7 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
     bool8 isOpponent;
     s8 nValidMons;
     s16 x, y, x2, speed;
-    s32 i, s;
+    s32 i;
     u8 summaryBarSpriteId;
     u8 ballIconSpritesIds[PARTY_SIZE];
     u8 taskId;
@@ -1204,35 +1204,39 @@ u8 CreatePartyStatusSummarySprites(u8 battlerId, struct HpAndStatus *partyInfo, 
     }
     else
     {
-        s = 5;
         for (i = 0; i < PARTY_SIZE; i++)
         {
             if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
             {
                 if (partyInfo[i].hp == HP_EMPTY_SLOT)
                 {
-                    gSprites[ballIconSpritesIds[s]].oam.tileNum += 1;
-                    gSprites[ballIconSpritesIds[s]].sIsEmptyBall = TRUE;
+                    gSprites[ballIconSpritesIds[5 - i]].oam.tileNum += 1;
+                    gSprites[ballIconSpritesIds[5 - i]].sIsEmptyBall = TRUE;
                 }
                 else if (partyInfo[i].hp == 0)
-                    gSprites[ballIconSpritesIds[s]].oam.tileNum += 3;
+                    gSprites[ballIconSpritesIds[5 - i]].oam.tileNum += 3;
                 else if (partyInfo[i].status != STATUS1_NONE)
-                    gSprites[ballIconSpritesIds[s]].oam.tileNum += 2;
-                s--;
+                    gSprites[ballIconSpritesIds[5 - i]].oam.tileNum += 2;
             }
             else
             {
+                ballIconSpritesIds[5 - i] += 0;
                 if (i >= nValidMons)
                 {
-                    gSprites[ballIconSpritesIds[s]].oam.tileNum += 1;
-                    gSprites[ballIconSpritesIds[s]].sIsEmptyBall = TRUE;
+                    gSprites[ballIconSpritesIds[5 - i]].oam.tileNum += 1;
+                    gSprites[ballIconSpritesIds[5 - i]].sIsEmptyBall = TRUE;
                 }
                 else if (partyInfo[i].hp == 0)
-                    gSprites[ballIconSpritesIds[s]].oam.tileNum += 3;
+                    gSprites[ballIconSpritesIds[5 - i]].oam.tileNum += 3;
                 else if (partyInfo[i].status != STATUS1_NONE)
-                    gSprites[ballIconSpritesIds[s]].oam.tileNum += 2;
-                s--;
+                {
+                    do
+                    {
+                        gSprites[ballIconSpritesIds[5 - i]].oam.tileNum += 2;
+                    } while (0);
+                }
             }
+            ballIconSpritesIds[5 - ++i] += 0; i--;
         }
     }
 
@@ -1856,8 +1860,7 @@ s32 MoveBattleBar(u8 battlerId, u8 healthboxSpriteId, u8 whichBar, u8 unused)
                                           gBattleSpritesDataPtr->battleBars[battlerId].oldValue,
                                           gBattleSpritesDataPtr->battleBars[battlerId].receivedValue,
                                           &gBattleSpritesDataPtr->battleBars[battlerId].currValue,
-                                          B_HEALTHBAR_NUM_TILES,
-                                          1);
+                                          B_HEALTHBAR_NUM_TILES, max(gBattleSpritesDataPtr->battleBars[battlerId].maxValue / 32, 1));
     }
     else // exp bar
     {

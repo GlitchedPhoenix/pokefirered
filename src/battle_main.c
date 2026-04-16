@@ -148,6 +148,7 @@ EWRAM_DATA u8 gActionsByTurnOrder[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u8 gBattlerByTurnOrder[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u8 gCurrentTurnActionNumber = 0;
 EWRAM_DATA u8 gCurrentActionFuncId = 0;
+EWRAM_DATA bool8 gExpShareCheck = 0;
 EWRAM_DATA struct BattlePokemon gBattleMons[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u8 gBattlerSpriteIds[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA u8 gCurrMovePos = 0;
@@ -554,6 +555,7 @@ const struct TrainerMoney gTrainerMoneyTable[] =
     {TRAINER_CLASS_AQUA_ADMIN, 10},
     {TRAINER_CLASS_AQUA_LEADER, 20},
     {TRAINER_CLASS_BOSS, 25},
+	{TRAINER_CLASS_MYSTERY, 15},
     { 0xFF, 5},
 };
 
@@ -1160,11 +1162,7 @@ static void CB2_PreInitMultiBattle(void)
         }
         break;
     case 2:
-#if REVISION >= 0xA
-        if (IsLinkTaskFinished() && !gPaletteFade.active)
-#else
         if (!gPaletteFade.active)
-#endif
         {
             gBattleCommunication[MULTIUSE_STATE]++;
             if (gWirelessCommType)
@@ -2287,6 +2285,13 @@ static void BattleStartClearSetData(void)
         gBattleStruct->safariEscapeFactor = 2;
     gBattleStruct->wildVictorySong = 0;
     gBattleStruct->moneyMultiplier = 1;
+	
+	if (FlagGet(FLAG_AQUA_NECKLACE_ACTIVE))
+	{
+		gBattleStruct->moneyMultiplier = 2;
+		if (FlagGet(FLAG_OCEAN_ANKLET_ACTIVE))
+			gBattleStruct->moneyMultiplier = 3;
+	}
 
     for (i = 0; i < 8; i++)
     {
@@ -3927,12 +3932,13 @@ static void ReturnFromBattleToOverworld(void)
         if (gBattleTypeFlags & BATTLE_TYPE_ROAMER)
         {
             UpdateRoamerHPStatus(&gEnemyParty[0]);
-#if defined(BUGFIX) || REVISION >= 0xA
-            if ((gBattleOutcome == B_OUTCOME_WON) || gBattleOutcome == B_OUTCOME_CAUGHT || gBattleOutcome == B_OUTCOME_DREW)
-#else
-            if ((gBattleOutcome & B_OUTCOME_WON) || gBattleOutcome == B_OUTCOME_CAUGHT) // Bug: When Roar is used by roamer, gBattleOutcome is B_OUTCOME_PLAYER_TELEPORTED (5).
-#endif                                                                                  // & with B_OUTCOME_WON (1) will return TRUE and deactivates the roamer.
+            if (gBattleOutcome == B_OUTCOME_WON)
                 SetRoamerInactive();
+			else if  (gBattleOutcome == B_OUTCOME_CAUGHT)
+			{
+				FlagSet(FLAG_ROAMER_CAUGHT);
+				SetRoamerInactive();
+			}
         }
         m4aSongNumStop(SE_LOW_HEALTH);
         SetMainCallback2(gMain.savedCallback);

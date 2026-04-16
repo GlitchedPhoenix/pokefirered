@@ -992,6 +992,9 @@ Text_TheDoorIsOpen::
 Text_MonFlewAway::
 	.string "The {STR_VAR_1} flew away!$"
 
+Text_MonRanAway::
+	.string "The {STR_VAR_1} ran away!$"
+
 Text_TheresBedLetsRest::
 	.string "ベッドが　ある‥‥\n"
 	.string "やすんでいこう$"
@@ -1030,7 +1033,7 @@ EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_CINNABAR_SEAGALLOP
 	setflag FLAG_HIDE_CINNABAR_POKECENTER_BILL
 	setflag FLAG_HIDE_LORELEI_IN_HER_HOUSE
-	setflag FLAG_HIDE_SAFFRON_FAN_CLUB_BLACK_BELT
+	setflag FLAG_HIDE_SAFFRON_FAN_CLUB_BLACKBELT
 	setflag FLAG_HIDE_SAFFRON_FAN_CLUB_ROCKER
 	setflag FLAG_HIDE_SAFFRON_FAN_CLUB_WOMAN
 	setflag FLAG_HIDE_SAFFRON_FAN_CLUB_BEAUTY
@@ -1038,7 +1041,7 @@ EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_TWO_ISLAND_GAME_CORNER_BIKER
 	setflag FLAG_HIDE_TWO_ISLAND_WOMAN
 	setflag FLAG_HIDE_TWO_ISLAND_BEAUTY
-	setflag FLAG_HIDE_TWO_ISLAND_POKE_MANIAC
+	setflag FLAG_HIDE_TWO_ISLAND_SUPER_NERD
 	setflag FLAG_HIDE_LOSTELLE_IN_HER_HOME
 	setflag FLAG_HIDE_THREE_ISLAND_LONE_BIKER
 	setflag FLAG_HIDE_FOUR_ISLAND_RIVAL
@@ -1060,6 +1063,12 @@ EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_FAME_CHECKER_KOGA_JOURNAL
 	setflag FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL
 	setflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
+	setflag FLAG_HIDE_LATI
+	setflag FLAG_HIDE_CONVENIENCE_DAISY
+	setflag FLAG_HIDE_TOWN_MAP_CONVENIENCE
+	setflag FLAG_HIDE_FUCHSIA_FT
+	setflag FLAG_HIDE_TWOISLAND_FT
+	setflag FLAG_HIDE_CONVENIENCE_FT
 	setvar VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500
 	end
 
@@ -1123,7 +1132,7 @@ EventScript_HandOverItem::
 	return
 
 	.include "data/scripts/pokemon_league.inc"
-	.include "data/scripts/movement.inc"
+	.include "data/scripts/movement.inc"	
 	.include "data/scripts/flavor_text.inc"
 	.include "data/scripts/questionnaire.inc"
 
@@ -1360,3 +1369,43 @@ Text_TestMsg::
 	.include "data/text/save.inc"
 	.include "data/text/new_game_intro.inc"
 	.include "data/text/pokedude.inc"
+	.include "data/scripts/fortune_teller.inc"
+
+	.include "data/maps/FourIsland_IcefallCave_Secret/scripts.inc"
+	.include "data/maps/FourIsland_IcefallCave_Secret/text.inc"
+
+	.include "data/maps/DebugRoom/scripts.inc"
+	.include "data/maps/DebugRoom/text.inc"
+
+	.include "data/maps/SixIsland_DottedHole_Secret/scripts.inc"
+	.include "data/maps/SixIsland_DottedHole_Secret/text.inc"
+
+	.include "data/maps/NavelRock_Fork_Special/scripts.inc"
+	.include "data/maps/NavelRock_Fork_Special/text.inc"
+
+	.include "data/maps/NavelRock_StraightPath_Special/scripts.inc"
+	.include "data/maps/NavelRock_StraightPath_Special/text.inc"
+
+	.include "data/maps/NavelRock_1F_Special/scripts.inc"
+	.include "data/maps/NavelRock_1F_Special/text.inc"
+
+	.include "data/maps/NavelRock_B1F_Special/scripts.inc"
+	.include "data/maps/NavelRock_B1F_Special/text.inc"
+
+	.include "data/maps/SouthernIsland_Exterior/scripts.inc"
+	.include "data/maps/SouthernIsland_Exterior/text.inc"
+
+	.include "data/maps/SouthernIsland_Interior/scripts.inc"
+	.include "data/maps/SouthernIsland_Interior/text.inc"
+
+	.include "data/maps/FarawayIsland_Entrance/scripts.inc"
+	.include "data/maps/FarawayIsland_Entrance/text.inc"
+
+	.include "data/maps/FarawayIsland_Interior/scripts.inc"
+	.include "data/maps/FarawayIsland_Interior/text.inc"
+
+	.include "data/maps/SixIsland_AlteringCave_Secret/scripts.inc"
+	.include "data/maps/SixIsland_AlteringCave_Secret/text.inc"
+
+	.include "data/maps/ConvenienceRoom/scripts.inc"
+	.include "data/maps/ConvenienceRoom/text.inc"

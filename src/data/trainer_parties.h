@@ -10860,3 +10860,145 @@ static const struct TrainerMonNoItemDefaultMoves sParty_CueBallPaxton[] = {
         .species = SPECIES_MUK,
     },
 };
+
+static const struct TrainerMonItemCustomMoves sParty_VagabondGiovanni[] = {
+    {
+        .iv = 255,
+        .lvl = 75,
+        .species = SPECIES_RHYDON,
+		.heldItem = ITEM_CHOICE_BAND,
+        .moves = {MOVE_DOUBLE_EDGE, MOVE_ROCK_SLIDE, MOVE_BRICK_BREAK, MOVE_EARTHQUAKE},
+    },
+    {
+        .iv = 255,
+        .lvl = 74,
+        .species = SPECIES_DUGTRIO,
+		.heldItem = ITEM_LEFTOVERS,
+        .moves = {MOVE_SLASH, MOVE_DIG, MOVE_TOXIC, MOVE_PROTECT},
+    },
+    {
+        .iv = 255,
+        .lvl = 76,
+        .species = SPECIES_NIDOQUEEN,
+		.heldItem = ITEM_LAX_INCENSE,
+        .moves = {MOVE_DISABLE, MOVE_CHARM, MOVE_THUNDERBOLT, MOVE_EARTHQUAKE},
+    },
+    {
+        .iv = 255,
+        .lvl = 77,
+        .species = SPECIES_NIDOKING,
+		.heldItem = ITEM_SCOPE_LENS,
+        .moves = {MOVE_SHADOW_BALL, MOVE_FOCUS_PUNCH, MOVE_SUBSTITUTE, MOVE_SLUDGE_BOMB},
+    },
+    {
+        .iv = 255,
+        .lvl = 76,
+        .species = SPECIES_KANGASKHAN,
+		.heldItem = ITEM_SILK_SCARF,
+        .moves = {MOVE_OUTRAGE, MOVE_DIZZY_PUNCH, MOVE_CRUNCH, MOVE_EXTREME_SPEED},
+    },
+	{
+        .iv = 255,
+        .lvl = 75,
+        .species = SPECIES_MURKROW,
+		.heldItem = ITEM_CHOICE_BAND,
+        .moves = {MOVE_DRILL_PECK, MOVE_SHADOW_BALL, MOVE_STEEL_WING, MOVE_DOUBLE_EDGE},
+    },
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Blissey[] = {
+    {
+    .iv = 0,
+    .lvl = 100,
+    .species = SPECIES_BLISSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    },
+    {
+    .iv = 0,
+    .lvl = 100,
+    .species = SPECIES_BLISSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    },
+	{
+    .iv = 0,
+    .lvl = 100,
+    .species = SPECIES_BLISSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    },
+	{
+    .iv = 0,
+    .lvl = 100,
+    .species = SPECIES_BLISSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    },
+	{
+    .iv = 0,
+    .lvl = 100,
+    .species = SPECIES_BLISSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    },
+    {
+    .iv = 0,
+    .lvl = 100,
+    .species = SPECIES_BLISSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Chansey[] = {
+    {
+    .iv = 0,
+    .lvl = 40,
+    .species = SPECIES_CHANSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    },
+    {
+    .iv = 0,
+    .lvl = 40,
+    .species = SPECIES_CHANSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    },
+    {
+    .iv = 0,
+    .lvl = 40,
+    .species = SPECIES_CHANSEY,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SPLASH}
+    }
+};
+
+static const struct TrainerMonNoItemDefaultMoves sParty_FortuneTeller[] = {
+    {
+    .iv = 0,
+    .lvl = 20,
+    .species = SPECIES_ZANGOOSE,
+    },
+	{
+    .iv = 0,
+    .lvl = 20,
+    .species = SPECIES_LUNATONE,
+    },
+	{
+    .iv = 0,
+    .lvl = 20,
+    .species = SPECIES_TEDDIURSA,
+    },
+	{
+    .iv = 0,
+    .lvl = 20,
+    .species = SPECIES_ELECTABUZZ,
+    },
+	{
+    .iv = 0,
+    .lvl = 20,
+    .species = SPECIES_MAGMAR,
+    }
+};

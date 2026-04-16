@@ -50,6 +50,7 @@ static void CB2_CheckMail(void);
 static void ItemUseOnFieldCB_Bicycle(u8 taskId);
 static bool8 CanFish(void);
 static void ItemUseOnFieldCB_Rod(u8 taskId);
+void Cycle_Through_Repels(void);
 static void Task_PlayPokeFlute(u8 taskId);
 static void Task_DisplayPokeFluteMessage(u8 taskId);
 static void InitTMCaseFromBag(void);
@@ -165,6 +166,25 @@ static void SetUpItemUseOnFieldCallback(u8 taskId)
     }
     else
         sItemUseOnFieldCB(taskId);
+}
+
+void Cycle_Through_Repels(void)
+{//Once the last repel of the chosen type has been depleted, find the next lowest repel class 
+  //and start using it! (Set it as VAR_REPEL_LAST_USED)
+
+    u16 RepelCycle[] = {ITEM_REPEL, ITEM_SUPER_REPEL, ITEM_MAX_REPEL};    
+    u8 i = 0;
+
+    while (gSpecialVar_Result == FALSE){
+        gSpecialVar_Result = CheckBagHasItem(RepelCycle[i],1);
+        if (gSpecialVar_Result == TRUE)
+            VarSet(VAR_REPEL_LAST_USED, RepelCycle[i]);
+        i++;
+        if (i > 2)
+            return;
+    }
+
+    return;
 }
 
 static void FieldCB_FadeInFromBlack(void)
@@ -565,6 +585,7 @@ static void Task_UseRepel(u8 taskId)
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
         VarSet(VAR_REPEL_STEP_COUNT, ItemId_GetHoldEffectParam(gSpecialVar_ItemId));
+		VarSet(VAR_REPEL_LAST_USED, gSpecialVar_ItemId);
         RemoveUsedItem();
         DisplayItemMessageInBag(taskId, FONT_NORMAL, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
@@ -908,6 +929,11 @@ void FieldUseFunc_OakStopsYou(u8 taskId)
     }
     else
         PrintNotTheTimeToUseThat(taskId, gTasks[taskId].data[3]);
+}
+
+void FieldUseFunc_RippedPage(u8 taskId)
+{
+	DisplayItemMessageInCurrentContext(taskId, gTasks[taskId].data[3], FONT_MALE, gText_RippedPage);
 }
 
 void ItemUse_SetQuestLogEvent(u8 eventId, struct Pokemon *pokemon, u16 itemId, u16 param)

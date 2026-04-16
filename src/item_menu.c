@@ -1797,7 +1797,7 @@ static void Task_ItemContext_Sell(u8 taskId)
         ItemMenu_SetExitCallback(GoToBerryPouch_Sell);
         ItemMenu_StartFadeToExitCallback(taskId);
     }
-    else if (ItemId_GetPrice(gSpecialVar_ItemId) == 0)
+    else if (ItemId_GetPrice(gSpecialVar_ItemId) == 0 || ItemId_GetPocket(gSpecialVar_ItemId) == POCKET_TM_CASE)
     {
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
         StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);

@@ -114,3 +114,60 @@ Braille_Text_WorldWaits::
 
 Braille_Text_ForYou::
 	.braille "FOR YOU.$"
+
+Braille_Text_UniteThem::
+	.braille "UNITE THEM$"
+
+Braille_Text_ThreeParts::
+	.braille "THREE PARTS$"
+
+Braille_Text_Once::
+	.braille "ONCE$"
+
+Braille_Text_WhereThe::
+	.braille "WHERE THE$"
+
+Braille_Text_PhoenixHad::
+	.braille "PHOENIX HAD$"
+
+Braille_Text_Roosted::
+	.braille "ROOSTED.$"
+
+Braille_Text_Twice::
+	.braille "TWICE$"
+
+Braille_Text_IceFell::
+	.braille "ICE FELL.$"
+
+Braille_Text_Thrice::
+	.braille "THRICE$"
+
+Braille_Text_DottedLine::
+	.braille "DOTTED LINE$"
+
+Braille_Text_LedAstray::
+	.braille "LED ASTRAY.$"
+
+Braille_Text_ThenGo::
+	.braille "THEN GO$"
+	
+Braille_Text_ToRed::
+	.braille "TO RED$"
+	
+Braille_Text_AndBlue::
+	.braille "AND BLUE$"
+
+Braille_Text_GoldAhead::
+	.braille "GOLD FIRST$"
+
+Braille_Text_SilverBehind::
+	.braille "SILVER LAST$"
+
+Braille_Text_Together::
+	.braille "TOGETHER$"
+
+Braille_Text_TheyBecome::
+	.braille "THEY BECOME$"
+
+Braille_Text_Crystal::
+	.braille "CRYSTAL.$"

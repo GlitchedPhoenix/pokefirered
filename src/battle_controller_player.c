@@ -243,6 +243,7 @@ static void HandleInputChooseAction(void)
         }
         PlayerBufferExecCompleted();
     }
+	
     else if (JOY_NEW(DPAD_LEFT))
     {
         if (gActionSelectionCursor[gActiveBattler] & 1) // if is B_ACTION_USE_ITEM or B_ACTION_RUN
@@ -301,6 +302,16 @@ static void HandleInputChooseAction(void)
             PlaySE(SE_SELECT);
             BtlController_EmitTwoReturnValues(1, B_ACTION_CANCEL_PARTNER, 0);
             PlayerBufferExecCompleted();
+        }
+		else
+        {
+            if(!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && !(IsMonShiny(&gEnemyParty[0]))) //if wild, pressing B moves cursor to run
+            {
+                PlaySE(SE_SELECT);
+                ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
+                gActionSelectionCursor[gActiveBattler] = 3;
+                ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+            }
         }
     }
     else if (JOY_NEW(START_BUTTON))
@@ -819,16 +830,10 @@ static void SetLinkBattleEndCallbacks(void)
 
 void SetBattleEndCallbacks(void)
 {
-#if REVISION >= 0xA
-#else
     if (!gPaletteFade.active)
-#endif
     {
         if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         {
-#if REVISION >= 0xA
-            if (!IsLinkTaskFinished() || gPaletteFade.active) return;
-#endif
             if (gWirelessCommType == 0)
                 SetCloseLinkCallback();
             else

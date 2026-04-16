@@ -157,6 +157,7 @@ static bool8 MovementAction_RestoreAnimation_Step0(struct ObjectEvent *, struct 
 static bool8 MovementAction_SetInvisible_Step0(struct ObjectEvent *, struct Sprite *);
 static bool8 MovementAction_SetVisible_Step0(struct ObjectEvent *, struct Sprite *);
 static bool8 MovementAction_EmoteExclamationMark_Step0(struct ObjectEvent *, struct Sprite *);
+static bool8 MovementAction_EmoteDots_Step0(struct ObjectEvent *, struct Sprite *);
 static bool8 MovementAction_EmoteQuestionMark_Step0(struct ObjectEvent *, struct Sprite *);
 static bool8 MovementAction_EmoteX_Step0(struct ObjectEvent *, struct Sprite *);
 static bool8 MovementAction_EmoteDoubleExclamationMark_Step0(struct ObjectEvent *, struct Sprite *);
@@ -386,6 +387,7 @@ static bool8 (*const sMovementActionFuncs_RestoreAnimation[])(struct ObjectEvent
 static bool8 (*const sMovementActionFuncs_SetInvisible[])(struct ObjectEvent *, struct Sprite *);
 static bool8 (*const sMovementActionFuncs_SetVisible[])(struct ObjectEvent *, struct Sprite *);
 static bool8 (*const sMovementActionFuncs_EmoteExclamationMark[])(struct ObjectEvent *, struct Sprite *);
+static bool8 (*const sMovementActionFuncs_EmoteDots[])(struct ObjectEvent *, struct Sprite *);
 static bool8 (*const sMovementActionFuncs_EmoteQuestionMark[])(struct ObjectEvent *, struct Sprite *);
 static bool8 (*const sMovementActionFuncs_EmoteX[])(struct ObjectEvent *, struct Sprite *);
 static bool8 (*const sMovementActionFuncs_EmoteDoubleExclMark[])(struct ObjectEvent *, struct Sprite *);
@@ -633,6 +635,7 @@ static bool8 (*const *const sMovementActionFuncs[])(struct ObjectEvent *, struct
     [MOVEMENT_ACTION_JUMP_SPECIAL_WITH_EFFECT_UP]        = sMovementActionFuncs_JumpSpecialWithEffectUp,
     [MOVEMENT_ACTION_JUMP_SPECIAL_WITH_EFFECT_LEFT]      = sMovementActionFuncs_JumpSpecialWithEffectLeft,
     [MOVEMENT_ACTION_JUMP_SPECIAL_WITH_EFFECT_RIGHT]     = sMovementActionFuncs_JumpSpecialWithEffectRight,
+	[MOVEMENT_ACTION_EMOTE_DOTS]             = sMovementActionFuncs_EmoteDots
 };
 
 static bool8 (*const sMovementActionFuncs_FaceDown[])(struct ObjectEvent *, struct Sprite *) = {
@@ -1298,6 +1301,11 @@ static bool8 (*const sMovementActionFuncs_SetVisible[])(struct ObjectEvent *, st
 
 static bool8 (*const sMovementActionFuncs_EmoteExclamationMark[])(struct ObjectEvent *, struct Sprite *) = {
     MovementAction_EmoteExclamationMark_Step0,
+    MovementAction_Finish,
+};
+
+static bool8 (*const sMovementActionFuncs_EmoteDots[])(struct ObjectEvent *, struct Sprite *) = {
+    MovementAction_EmoteDots_Step0,
     MovementAction_Finish,
 };
 

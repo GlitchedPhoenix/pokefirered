@@ -75,17 +75,17 @@ gSpecials::
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
-	def_special NullFieldSpecial
+	def_special CheckQuickNurse
 	def_special NullFieldSpecial
 	def_special HasLeadMonBeenRenamed
 	def_special NullFieldSpecial  @ Contest specials
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
-	def_special NullFieldSpecial
-	def_special NullFieldSpecial
-	def_special NullFieldSpecial
-	def_special NullFieldSpecial
-	def_special NullFieldSpecial
+	def_special CheckHoohLugia
+	def_special ScriptMenu_CreateEventIslandMultichoice
+	def_special GetSeagallopSelection
+	def_special SetMewAboveGrass
+	def_special DestroyMewEmergingGrassSprite
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
@@ -286,10 +286,10 @@ gSpecials::
 	def_special SpawnCameraObject
 	def_special RemoveCameraObject
 	def_special NullFieldSpecial  @ Misc Hoenn specials
-	def_special NullFieldSpecial
-	def_special NullFieldSpecial
-	def_special NullFieldSpecial
-	def_special NullFieldSpecial
+	def_special GetFirstHeldItem
+	def_special GetArtifactSelection
+	def_special ScriptMenu_CreateArtifactMultichoice
+	def_special GetFortuneTellerMap
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial

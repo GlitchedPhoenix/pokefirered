@@ -109,7 +109,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VermilionCity_EventScript_FerrySailor",
-      "flag": "0"
+      "flag": "FLAG_HIDE_FERRY_SAILOR"
     },
     {
       "type": "object",
@@ -210,6 +210,13 @@
       "elevation": 0,
       "dest_map": "MAP_VERMILION_CITY_GYM",
       "dest_warp_id": "1"
+    },
+    {
+      "x": 25,
+      "y": 19,
+      "elevation": 0,
+      "dest_map": "MAP_DEBUG_ROOM",
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [
@@ -248,6 +255,123 @@
       "var": "VAR_TEMP_1",
       "var_value": "0",
       "script": "VermilionCity_EventScript_ExitedTicketCheck"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 32,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_ReturnSailor2"
+    },
+    {
+      "type": "trigger",
+      "x": 22,
+      "y": 6,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 6,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 23,
+      "y": 6,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 14,
+      "y": 7,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 15,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 16,
+      "y": 7,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 43,
+      "y": 23,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 43,
+      "y": 22,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 43,
+      "y": 21,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 43,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 43,
+      "y": 19,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
+    },
+    {
+      "type": "trigger",
+      "x": 43,
+      "y": 18,
+      "elevation": 0,
+      "var": "VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER",
+      "var_value": "3",
+      "script": "VermilionCity_EventScript_Weirdo"
     }
   ],
   "bg_events": [

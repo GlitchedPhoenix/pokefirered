@@ -106,6 +106,28 @@ FiveIsland_RocketWarehouse_Text_ReportWithGraphsAndText::
     .string "… … … … … …\p"
     .string "It's too difficult to understand…$"
 
+FiveIsland_RocketWarehouse_Text_Email::
+	.string "There seems to be an unread e-mail\n"
+	.string "on the computer screen...$"
+
+FiveIsland_RocketWarehouse_Text_EncryptedMessage::
+	.string "‘Mile TOTODILE mole TANGELA 6 icons\n"
+	.string "red ABSOL named NIDO TYRANITAR H\l"
+	.string "boxer intern blue gruff\l"
+	.string "AERODACTYL HERACROSS.'$"
+
+FiveIsland_RocketWarehouse_Text_What::
+	.string "...\p"
+	.string "What?$"
+
+FiveIsland_RocketWarehouse_Text_BurnedCipher::
+	.string "There's a piece of paper here...\p"
+	.string "ROCKET CIPHER\n"
+	.string "Take the first and last...\l"
+	.string "o...ea...i..no...col...\p"
+	.string "The rest of the paper is too\n"
+	.string "burned to understand...$"
+
 FiveIsland_RocketWarehouse_Text_GideonIntro::
     .string "I almost managed to sell the\n"
     .string "SAPPHIRE for huge money…\p"

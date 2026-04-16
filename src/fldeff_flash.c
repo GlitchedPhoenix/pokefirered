@@ -3,6 +3,8 @@
 #include "event_data.h"
 #include "event_scripts.h"
 #include "fldeff.h"
+#include "fieldmap.h"
+#include "field_camera.h"
 #include "field_effect.h"
 #include "map_preview_screen.h"
 #include "overworld.h"
@@ -10,6 +12,8 @@
 #include "script.h"
 #include "constants/songs.h"
 #include "constants/map_types.h"
+#include "constants/maps.h"
+#include "constants/metatile_labels.h"
 
 struct FlashStruct
 {
@@ -37,6 +41,7 @@ static void Task_FlashTransition_Enter_2(u8 taskId);
 static void Task_FlashTransition_Enter_3(u8 taskId);
 static void RunMapPreviewScreen(u8 mapsecId);
 static void Task_MapPreviewScreen_0(u8 taskId);
+static void DoAlteringCaveFlashEffect(void);
 
 static const struct FlashStruct sTransitionTypes[] = {
     {
@@ -157,12 +162,29 @@ static const struct FlashStruct sTransitionTypes[] = {
 static const u16 sCaveTransitionPalette_White[] = INCBIN_U16("graphics/cave_transition/white.gbapal");
 static const u16 sCaveTransitionPalette_Black[] = INCBIN_U16("graphics/cave_transition/black.gbapal");
 
-static const u16 sCaveTransitionPalette[] = INCBIN_U16("graphics/cave_transition/tiles.gbapal");
+static const u16 sCaveTransitionPalette_Enter[] = INCBIN_U16("graphics/cave_transition/enter.gbapal");
+static const u16 sCaveTransitionPalette_Exit[] = INCBIN_U16("graphics/cave_transition/exit.gbapal");
 static const u32 sCaveTransitionTilemap[] = INCBIN_U32("graphics/cave_transition/tilemap.bin.lz");
 static const u32 sCaveTransitionTiles[] = INCBIN_U32("graphics/cave_transition/tiles.4bpp.lz");
 
+bool8 ShouldDoAlteringCaveEffect(void)
+{
+	if (!FlagGet(FLAG_ALTERING_CAVE_SECRET_TRIGGERED) && (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_SIX_ISLAND_ALTERING_CAVE) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SIX_ISLAND_ALTERING_CAVE)))
+		return TRUE;
+	
+    return FALSE;
+}
+
 bool8 SetUpFieldMove_Flash(void)
 {
+	if (ShouldDoAlteringCaveEffect())
+	{
+		gSpecialVar_Result = GetCursorSelectionMonId();
+		gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+		gPostMenuFieldCallback = SetUpPuzzleEffectAlteringCave;
+		return TRUE;
+	}
+	
     if (gMapHeader.cave != TRUE)
         return FALSE;
 
@@ -172,6 +194,37 @@ bool8 SetUpFieldMove_Flash(void)
     gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
     gPostMenuFieldCallback = FieldCallback_Flash;
     return TRUE;
+}
+
+void SetUpPuzzleEffectAlteringCave(void)
+{
+    gFieldEffectArguments[0] = GetCursorSelectionMonId();
+    FieldEffectStart(FLDEFF_USE_TOMB_PUZZLE_EFFECT);
+}
+
+void AlteringCaveHm_Callback(void)
+{
+    FieldEffectActiveListRemove(FLDEFF_USE_TOMB_PUZZLE_EFFECT);
+    DoAlteringCaveFlashEffect();
+}
+
+bool8 FldEff_UsePuzzleEffect(void)
+{
+    u8 taskId = CreateFieldEffectShowMon();
+
+	gTasks[taskId].data[8] = (u32)AlteringCaveHm_Callback >> 16;
+	gTasks[taskId].data[9] = (u32)AlteringCaveHm_Callback;
+	
+    return FALSE;
+}
+
+static void DoAlteringCaveFlashEffect(void)
+{
+    MapGridSetMetatileIdAt(26 + MAP_OFFSET, 11 + MAP_OFFSET, METATILE_RockTunnel_CaveLadder);
+    DrawWholeMapView();
+    PlaySE(SE_BANG);
+    FlagSet(FLAG_ALTERING_CAVE_SECRET_TRIGGERED);
+    UnlockPlayerFieldControls();
 }
 
 static void FieldCallback_Flash(void)
@@ -301,7 +354,7 @@ static void Task_FlashTransition_Exit_1(u8 taskId)
     LZ77UnCompVram(sCaveTransitionTiles, (void *)BG_CHAR_ADDR(3));
     LZ77UnCompVram(sCaveTransitionTilemap, (void *)BG_SCREEN_ADDR(31));
     LoadPalette(sCaveTransitionPalette_White, BG_PLTT_ID(14), sizeof(sCaveTransitionPalette_White));
-    LoadPalette(&sCaveTransitionPalette[8], BG_PLTT_ID(14), PLTT_SIZEOF(8));
+    LoadPalette(sCaveTransitionPalette_Exit, BG_PLTT_ID(14), sizeof(sCaveTransitionPalette_Exit));
     SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_BG1 | BLDCNT_TGT2_BG2 | BLDCNT_TGT2_BG3 | BLDCNT_TGT2_OBJ | BLDCNT_TGT2_BD);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
     SetGpuReg(REG_OFFSET_BLDY, 0);
@@ -335,7 +388,7 @@ static void Task_FlashTransition_Exit_3(u8 taskId)
     if (count < 8)
     {
         gTasks[taskId].data[2]++;
-        LoadPalette(&sCaveTransitionPalette[count + 8], BG_PLTT_ID(14), PLTT_SIZEOF(8) - PLTT_SIZEOF(count));
+        LoadPalette(&sCaveTransitionPalette_Exit[count], BG_PLTT_ID(14), sizeof(sCaveTransitionPalette_Exit) - PLTT_SIZEOF(count));
     }
     else
     {
@@ -388,7 +441,7 @@ static void Task_FlashTransition_Enter_2(u8 taskId)
     {
         gTasks[taskId].data[2]++;
         gTasks[taskId].data[2]++;
-        LoadPalette(&sCaveTransitionPalette[15 - count], BG_PLTT_ID(14), PLTT_SIZEOF(count + 1));
+        LoadPalette(&sCaveTransitionPalette_Enter[15 - count], BG_PLTT_ID(14), PLTT_SIZEOF(count + 1));
     }
     else
     {
